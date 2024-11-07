@@ -16,9 +16,12 @@
     font-weight: 500;
     font-size: xx-large;
 }
-.navbarTexts p:hover{
-    border-bottom: 2px solid var(--foreground) 0 0 1px 0;
+.navbarTexts p:hover, .current{
+    border-image: linear-gradient( to right, var(--border-color), var(--border-color)) 0 0  1 0;
+    border-width: 2px;
+    color: var(--border-color);
 }
+
 .homeHeroParent{
     background-image:url('/slide-01.jpg');
     background-size: cover;

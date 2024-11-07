@@ -6,6 +6,7 @@
   --background: #ffffff;
   --foreground: #171717;
   --text-color: #ffffff;
+  --border-color:#ff1fff;
 }
 
 @media (prefers-color-scheme: dark) {

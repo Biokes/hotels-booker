@@ -4,7 +4,7 @@ import Navbar from "@/components/reuseables/navbar";
 describe("tests The navbar component",()=>{
 
     it('tests that when the icon is clicked it changes the background color',async () => {
-        const navbar = render(<Navbar/>)
+        const navbar = render(<Navbar index={0}/>)
         const modeIcon = await screen.findByTestId('navbar_icon')
         expect(navbar).toHaveStyle('background-color: #ffffff')
         fireEvent.click(modeIcon)
@@ -14,7 +14,7 @@ describe("tests The navbar component",()=>{
 
     it('test that the navbar hamburgers shows on small screen',()=>{
         render(
-            <Navbar/>
+            <Navbar index={0}/>
         )
         Object.defineProperty(global, 'innerWidth', {
             configurable: true,
@@ -29,7 +29,7 @@ describe("tests The navbar component",()=>{
 
     it('test that the navbar hamburgers does not show on large screen',()=>{
         render(
-            <Navbar/>
+            <Navbar index={0}/>
         )
         expect(screen.getByText('Contact')).toBeInTheDocument();
         expect(screen.getByText('Home')).toBeInTheDocument();

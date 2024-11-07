@@ -1,11 +1,11 @@
 'use client'
 import Navbar from "@/components/reuseables/navbar";
-import HomeHero from "@/components/HomeHero";
+import HomeHero from "@/components/home/HomeHero";
 
 export default function Home(){
     return (
         <>
-            <Navbar/>
+            <Navbar index={0}/>
             <HomeHero/>
         </>
     )

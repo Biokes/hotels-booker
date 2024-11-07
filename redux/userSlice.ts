@@ -1,19 +1,21 @@
-import {createSlice, } from "@reduxjs/toolkit";
+import {createSlice, PayloadAction,} from "@reduxjs/toolkit";
 
 interface userState{
-    color:string
+    color:string,
+    base_url:string
 }
 
 const initialState:userState ={
-    color:'#ffffff'
+    color:'#ffffff',
+    base_url:'http://localhost:8000',
 }
 const UserSlice = createSlice({
     name:'user',
     initialState,
     reducers:{
-        // setBackgroundColor(state, action:PayloadAction<string>){
-        //     initialState.color = action.payload
-        // }
+        setBaseUrl(state,action:PayloadAction<string>){
+            state.base_url = action.payload
+}
     }
 })
 export const {  } = UserSlice.actions;

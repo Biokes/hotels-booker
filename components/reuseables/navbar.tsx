@@ -3,8 +3,9 @@ import {useEffect, useState} from "react";
 import styles from '@/styles/reuseable.module.css'
 import {Icon} from "@iconify/react";
 import '@/app/globals.css'
+import Link from "next/link";
 
-export default function Navbar(){
+export default function Navbar(props:{index:number}){
     const [isOpen, setOpen] = useState<boolean>(false)
     const [isWhite , setScreenColor] = useState<boolean>(false)
 
@@ -15,9 +16,11 @@ export default function Navbar(){
         if(isWhite){
             document.documentElement.style.setProperty('--background', '#000000');
             document.documentElement.style.setProperty('--text-color', '#ffffff');
+            document.documentElement.style.setProperty('--border-color', '#6a326a')
         }else{
             document.documentElement.style.setProperty('--background', '#ffffff');
             document.documentElement.style.setProperty('--text-color', '#000000');
+            document.documentElement.style.setProperty('--border-color', '#28323e')
         }
     })
     return (
@@ -30,9 +33,9 @@ export default function Navbar(){
             </section>
 
             <section className={styles.navbarTexts}>
-                <p>Home</p>
-                <p>About us</p>
-                <p>Contact</p>
+                <Link href={'/'} className={`${props.index===0 ? styles.current : ''}`}>Home</Link>
+                <Link href={'/about_us'} className={`${props.index===1 ? styles.current : ''}`}>About us</Link>
+                <Link href={'/contact'} className={`${props.index===2 ? styles.current : ''}`}>Contact</Link>
             </section>
             <div className={'flex gap-[10px] justify-center items-center'}>
                 <p className={'p-[10px] text-nowrap'} style={{ color: 'var(--text-color)' }}>Book Now</p>

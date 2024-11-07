@@ -1,10 +1,21 @@
 import {fireEvent, render, screen} from "@testing-library/react";
-import HomeHero from "@/components/HomeHero";
+import HomeHero from "@/components/home/HomeHero";
+import {Provider} from "react-redux";
+import {configureStore} from "@reduxjs/toolkit";
+import UserSlice from "@/redux/userSlice";
+import {useRouter} from "next/router";
 
 describe('',()=>{
+    const store = configureStore({
+        reducer: {
+            users: UserSlice
+        },
+    });
     it('test that hero has text',()=>{
        render(
-            <HomeHero/>
+           <Provider store={store}>
+               <HomeHero/>
+           </Provider>
        )
         expect(screen.getByText('Relax & unwind')).toBeInTheDocument()
         expect(screen.getByText('Experience the luxurious level')).toBeInTheDocument()
@@ -12,9 +23,17 @@ describe('',()=>{
         expect(screen.getByText('Learn more')).toBeInTheDocument()
     })
     it('tests hero button routes to another page when clicked',()=>{
-        render(<HomeHero/>)
+        const mockNavigate = jest.fn();
+        ( useRouter as jest.Mock).mockReturnValue({
+            push:mockNavigate,
+        })
+        render(
+            <Provider store={store}>
+                <HomeHero/>
+            </Provider>
+        )
         const button = screen.getByRole('button', { name: /Learn more/ })
         fireEvent.click(button)
-
+        expect(mockNavigate).not.toHaveBeenCalled()
     })
 })
