@@ -28,7 +28,7 @@ describe("tests the home page footer",()=>{
     })
     test('initially hides the message paragraph', () => {
         render(<Footer />);
-        const messageParagraph = screen.getByTestId('paragraph', { hidden: true });
+        const messageParagraph = screen.getByTestId('paragraph');
         expect(messageParagraph).toHaveClass('hidden');
     });
 

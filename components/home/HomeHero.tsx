@@ -1,3 +1,4 @@
+'use client'
 import styles from '@/styles/reuseable.module.css'
 import {FormEvent, useState} from "react";
 import DatePicker from "react-datepicker";

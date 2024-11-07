@@ -1,3 +1,4 @@
+'use client'
 import Hamburger from 'hamburger-react'
 import {useEffect, useState} from "react";
 import styles from '@/styles/reuseable.module.css'

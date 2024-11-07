@@ -1,3 +1,4 @@
+'use client'
 import Navbar from "@/components/reuseables/navbar";
 
 export default function About(){

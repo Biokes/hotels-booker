@@ -6,5 +6,5 @@ export const Store = configureStore({
         user:userSlice
     }
 })
-export type AppDispatch = typeof store.dispatch;
-export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof Store.dispatch;
+export type RootState = ReturnType<typeof Store.getState>;
