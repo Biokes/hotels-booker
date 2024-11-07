@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Danfo&family=Spicy+Rice&display=swap');
+
+.navbar{
+    @apply flex justify-between items-center h-[50px] px-[5%] shadow-2xl
+}
+.navbarTexts{
+    @apply hidden md:flex justify-between items-center gap-[30px]
+}
+.navbarTexts p{
+    @apply font-light justify-center items-center p-[10px_5px] cursor-pointer;
+    color: var(--text-color);
+}
+.font{
+    font-family: 'Spicy Rice', sans-serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: xx-large;
+}
+.navbarTexts p:hover{
+    border-bottom: 2px solid var(--foreground) 0 0 1px 0;
+}
+.homeHeroParent{
+    background-image:url('/slide-01.jpg');
+    background-size: cover;
+    @apply flex flex-col object-cover object-center w-full h-[500px] md:h-auto justify-center pl-[10%] pt-[13%] md:pt-[5%] gap-[10px];
+}
+.relax{
+    font-family: 'Arial', sans-serif;
+    @apply font-extrabold text-nowrap text-[8vw] md:text-7xl;
+}
+.experience{
+    @apply font-thin;
+    font-style: italic;
+}
+.treatment{
+    @apply text-nowrap text-xl font-bold;
+    font-style: italic;
+}
+.learn{
+    @apply text-nowrap text-2xl font-bold border-[1px] p-[7px_10px] hover:bg-gray-100 w-[150px] flex justify-center items-center rounded hover:text-gray-700
+}
+.heroForm{
+    @apply bg-gray-200 items-center lg:w-[400px] p-[5%] md:p-[10px]
+}
