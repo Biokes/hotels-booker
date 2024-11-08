@@ -6,7 +6,7 @@ import {Icon} from "@iconify/react";
 import '@/app/globals.css'
 import Link from "next/link";
 
-export default function Navbar(props:{index:number}){
+export default function     Navbar(props:{index:number}){
     const [isOpen, setOpen] = useState<boolean>(false)
     const [isWhite , setScreenColor] = useState<boolean>(false)
 

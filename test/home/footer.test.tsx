@@ -5,11 +5,12 @@ import React from "react";
 jest.useFakeTimers();
 
 describe("tests the home page footer",()=>{
+
     it('test footer',()=>{
         render(
             <Footer/>
         )
-        expect(screen.getByText('opening Hours')).toBeInTheDocument()
+        expect(screen.getByText('Opening Hours')).toBeInTheDocument()
         expect(screen.getByText('Weekdays: 8:00–20:00')).toBeInTheDocument()
         expect(screen.getByText('Weekends: 9:00–18:00')).toBeInTheDocument()
         expect(screen.getByText('© 2019 Royal Villas. All Rights Reserved.')).toBeInTheDocument()
@@ -26,6 +27,7 @@ describe("tests the home page footer",()=>{
         fireEvent.change(input, {target:{value:'email@email.com'}})
         expect(subscribeButton).toBeEnabled()
     })
+
     test('initially hides the message paragraph', () => {
         render(<Footer />);
         const messageParagraph = screen.getByTestId('paragraph');
@@ -55,6 +57,5 @@ describe("tests the home page footer",()=>{
         fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
         fireEvent.click(submitButton);
     });
-
 })
 

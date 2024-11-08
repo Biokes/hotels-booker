@@ -45,3 +45,12 @@
 .heroForm{
     @apply bg-gray-200 items-center lg:w-[400px] p-[5%] md:p-[10px]
 }
+.footerInner{
+    @apply flex flex-col md:flex-row md:py-[2rem]  md:justify-between md:items-center px-[30px] gap-[30px] md:gap-[10px]
+}
+.footerInner p{
+    color: var(--text-color);
+}
+.footerInner> div{
+    @apply md:w-[20rem]
+}
