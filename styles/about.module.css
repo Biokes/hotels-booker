@@ -6,3 +6,17 @@
 .header p{
     @apply text-nowrap font-bold text-white text-4xl
 }
+.heroText{
+    @apply md:w-[500px] h-auto px-[10px] flex flex-col md:justify-center md:items-center mt-[20px] md:mt-0
+}
+.heroText> p{
+    @apply text-2xl font-bold capitalize;
+    color:var(--text-color)
+}
+.heroText>div{
+    @apply my-[15px] justify-between items-center w-full md:w-full
+}
+.heroText>div>p{
+    color:var(--text-color);
+    @apply text-sm md:text-lg my-[1rem] text-center
+}
