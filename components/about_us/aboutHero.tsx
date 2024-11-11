@@ -5,7 +5,7 @@ import image from '../../public/about-01-546x516.jpg';
 
 export default function AboutHero(){
     return (
-        <div className={'flex flex-col md:flex-row my-[30px] md:justify-around '}>
+        <div className={'flex flex-col md:flex-row p-[15px] md:justify-around bg-gray-300 '}>
             <section className={'md:w-[500px] h-auto md:h-[500px]'}>
                 <Image alt={''} src={image} className={'w-full h-[100%] object-contain object-center'}/>
             </section>

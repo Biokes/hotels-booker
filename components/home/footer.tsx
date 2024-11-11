@@ -8,6 +8,7 @@ export default function Footer() {
     const [text, setText] = useState<string>('');
     const [showMessage, setShowMessage] = useState<boolean>(false);
     const messageRef = useRef<HTMLParagraphElement>(null);
+    const [isValidEmail, setValidMail] = useState(false)
     useEffect(() => {
         if (showMessage) {
             const timer = setTimeout(() => {
@@ -48,12 +49,15 @@ export default function Footer() {
                 </div>
                 <div>
                     <p className="text-bold text-2xl font-bold">Join our newsletter</p>
-                    <div className={'flex gap-[20px]'}>
+                    <div className={'flex gap-[20px] mb-[20px]'}>
                         <form >
                             <input
                                 data-testid={'email_input'} type={'email'} value={email} placeholder={'Enter your email'}
-                                className={'w-[80%] text-black h-[30px] rounded-sm my-[10px] pl-[10px]'} onChange={(e) => setEmail(e.target.value)}/>
-                            <Button sx={{width:'60%', paddingBlock:'5px'}} disabled={!isValid(email)} onClick={handleSubmit}>
+                                className={'w-[80%] text-black h-[30px] rounded-sm my-[10px] pl-[7px]'} onChange={(e) => {
+                                setEmail(e.target.value)
+                                setValidMail(isValid(email))
+                            }}/>
+                            <Button sx={{width:'60%', paddingBlock:'5px', backgroundColor:'#cee1f3'}} disabled={!isValidEmail} onClick={handleSubmit}>
                                 Subscribe
                             </Button>
                         </form>

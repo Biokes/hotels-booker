@@ -1,11 +1,7 @@
 import {createSlice, PayloadAction,} from "@reduxjs/toolkit";
+import {UserState} from "@/interfaces/interfaces";
 
-interface userState{
-    color:string,
-    base_url:string,
-}
-
-const initialState:userState ={
+const initialState:UserState ={
     color:'#ffffff',
     base_url:'http://localhost:8000',
 }
