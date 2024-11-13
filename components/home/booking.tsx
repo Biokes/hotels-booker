@@ -8,6 +8,7 @@ import Image from "next/image";
 import styles from "@/styles/about.module.css";
 import splitAndConcat from '@/utils/functions'
 
+
 export default function Booking(props:{data:RoomsData[]}){
     const [cityName, setCityName] = useState<string>('')
     const [isValidName, setValidName] = useState<boolean>(false)
