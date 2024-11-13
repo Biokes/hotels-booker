@@ -17,3 +17,9 @@ export interface UserState{
     color:string,
     base_url:string,
 }
+export interface Contact{
+    name:string,
+    phone:string,
+    message:string,
+    email:string
+}

@@ -5,8 +5,8 @@ import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import {Button} from "@mui/material";
 import {Icon} from "@iconify/react";
-import {useSelector} from "react-redux";
-import {RootState} from "@/redux/store";
+// import {useSelector} from "react-redux";
+// import {RootState} from "@/redux/store";
 
 export default function HomeHero(){
     const [name, setName]= useState<string>('')
@@ -15,7 +15,7 @@ export default function HomeHero(){
     const [adults, setAdult]= useState<number>(1)
     const [children,setChildren] = useState<number>(1)
     const isValid = /^[A-Za-z\s]+$/.test(name.trim()) && arrival && departure && (adults >0 ||  children>0)
-    const base_url = useSelector((state: RootState)=>state.user.base_url)
+    // const base_url = useSelector((state: RootState)=>state.user.base_url)
     const handleSubmit= async (e:FormEvent)=>{
         e.preventDefault()
         const data={
@@ -26,7 +26,7 @@ export default function HomeHero(){
             adult:adults
         }
         try {
-            const response = await fetch(`${base_url}/hotels/available/details`, {
+            const response = await fetch(`http://localhost:8080/hotels/available/details`, {
                 method: 'GET', headers: {
                     'content-type': 'application/json'
                 }, body: JSON.stringify(data)

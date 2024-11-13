@@ -21,7 +21,7 @@ export default function RoomAndSuites(props:{data: RoomsData[],usersReviews: Rev
                         </div>
                         <div className="absolute inset-0 border-2 lg:border-transparent lg:group-hover:border-white animate-border-animation z-10 pointer-events-none m-[30px] p-[10px]">
                             <div className="absolute inset-0 flex flex-col items-center justify-center text-white z-20">
-                                <p className={styles.heading}>{dataIndex.heading}</p>
+                                <p className={`${styles.heading} w-[30%]`}>{dataIndex.heading}</p>
                                 <p className={styles.description}>{dataIndex.description}</p>
                             </div>
                         </div>
@@ -39,12 +39,11 @@ export default function RoomAndSuites(props:{data: RoomsData[],usersReviews: Rev
                             props.usersReviews.map((data, index) => (
                                 <q key={index} className={styles.scrollContainer}>
                                     <p className={'font-semibold capitalize text-lg'}>{data.heading}</p>
-                                    <p className={'capitalize'}>{data.description}</p>
+                                    <p className={'capitalize lg:px-[50px]'}>{data.description}</p>
                                     <section className={'flex flex-col justify-center items-center gap-[30px]'}>
                                         <article
                                             className={'w-[100px] overflow-hidden border-[2px] border-gray-400 rounded-5xl '}>
-                                            <Image src={data.image} alt=''
-                                                   className={'w-[100px] object-center object-cover h-auto'}/>
+                                            <Image src={data.image} alt='' className={'w-[100px] object-center object-cover h-auto'}/>
                                         </article>
                                         <ul className={'flex gap-[20px]'}>
                                             <p className={'text-amber-600 capitalize font-semibold'}>{data.name}</p>

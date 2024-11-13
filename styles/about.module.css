@@ -30,7 +30,7 @@
     @apply text-xs text-white md:text-sm capitalize my-[10px] text-center
 }
 .heading{
-    @apply border-[1px] text-center w-[30%] text-nowrap;
+    @apply border-[1px] text-center text-nowrap;
     border-image: linear-gradient( to right, #ffffff, #ffffff) 0 0  1 0;
 }
 @keyframes border-animation {

@@ -38,7 +38,7 @@ export default function About(){
     return (
         <>
             <Navbar index={1}/>
-            <AboutHeader/>
+            <AboutHeader text={'About us'}/>
             <AboutHero/>
             <RoomAndSuites data={collection} usersReviews={review}/>
             <Footer/>

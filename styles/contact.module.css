@@ -1,0 +1,4 @@
+.inputs input{
+    outline:none;
+    @apply w-[50%] h-[30px] text-black
+}
