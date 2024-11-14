@@ -80,13 +80,13 @@ export default function Booking(props:{data:RoomsData[]}){
                 <p className={'text-gray-600'}>Find Hotel By city</p>
                 <form onSubmit={search} className={'flex flex-col w-full  gap-[10px]'}>
                     <input type="text" placeholder="City name..." name={'cityName'} value={cityName}
-                           className={'w-[70%] lg:w-[50%] h-[50px] rounded-md text-black p-[5px]'}
+                           className={'w-[70%] lg:w-[30%] h-[40px] rounded-md text-black p-[5px]'}
                            onChange={(e) => {
                                setCityName(e.target.value)
                                setValidName(validate(cityName.trim()))
                            }}/>
-                    <Button type={'submit'} disabled={!isValidName || isLoading}
-                            className={`w-[30%] h-[30px] text-white lg:w-[25%] lg:h-[40px] md:text-lg hover:cursor-pointer ${isValidName ? 'bg-blue-600' : 'bg-gray-400'}`}>
+                    <Button type={'submit'} disabled={!isValidName || isLoading} variant={'contained'}
+                            className={`w-[30%] h-[30px] text-white lg:w-[15%] lg:h-[40px] md:text-lg hover:cursor-pointer`}>
                         {isLoading ? <Icon icon='line-md:loading-loop' width={15} height={15}/> : "Find city"}
                     </Button>
                 </form>

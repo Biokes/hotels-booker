@@ -53,11 +53,11 @@ export default function Footer() {
                         <form >
                             <input
                                 data-testid={'email_input'} type={'email'} value={email} placeholder={'Enter your email'}
-                                className={'w-[80%] text-black h-[30px] rounded-sm my-[10px] pl-[7px]'} onChange={(e) => {
+                                className={'w-[80%] text-black h-[30px] rounded-sm my-[10px] pl-[7px] outline-1'} onChange={(e) => {
                                 setEmail(e.target.value)
                                 setValidMail(isValid(email))
                             }}/>
-                            <Button sx={{width:'60%', paddingBlock:'5px', backgroundColor:'#cee1f3'}} disabled={!isValidEmail} onClick={handleSubmit}>
+                            <Button sx={{width:'60%', paddingBlock:'5px'}} variant={'outlined'} disabled={!isValidEmail} onClick={handleSubmit}>
                                 Subscribe
                             </Button>
                         </form>

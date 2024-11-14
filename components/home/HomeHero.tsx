@@ -68,8 +68,8 @@ export default function HomeHero() {
                             />
                         </div>
                         <div className="flex flex-col gap-[20px] w-full">
-                            <div className="flex flex-col gap-[10px]">
-                                <p className="text-gray-700 font-thin text-sm">Arrival Date</p>
+                            <div>
+                                {/*<p className="text-gray-700 font-thin text-sm">Arrival Date</p>*/}
                                 <div className="relative flex w-4/5 justify-between">
                                     <DesktopDatePicker
                                         label="Arrival Date"
@@ -80,11 +80,11 @@ export default function HomeHero() {
                                         sx={{width: '120%', padding: 2, border: '1px solid', borderColor: 'transparent', borderRadius: '4px', fontSize: '0.875rem', color: 'black',
                                             outline: 'none', '&:focus': {ring: 2, ringColor: '#008eef', borderColor: '#008eef',},}}
                                     />
-                                    <span className="absolute flex justify-center pointer-events-none">
-                                        <DateRange
-                                            className="h-[18px] w-[18px] ml-[200px] mt-[10px] text-[#475661]"
-                                        />
-                                    </span>
+                                    {/*<span className="absolute flex justify-center pointer-events-none">*/}
+                                    {/*    <DateRange*/}
+                                    {/*        className="h-[18px] w-[18px] ml-[200px] mt-[10px] text-[#475661]"*/}
+                                    {/*    />*/}
+                                    {/*</span>*/}
                                 </div>
                             </div>
                             <div className="flex flex-col gap-[10px]">

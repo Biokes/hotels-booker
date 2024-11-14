@@ -1,0 +1,8 @@
+.text{
+    border-image: linear-gradient( to right, #000000, #000000 )0 0  1 0;
+    border-width: 2px;
+    @apply cursor-pointer
+}
+.current{
+    @apply font-light justify-center items-center p-[10px_5px] cursor-pointer;
+}

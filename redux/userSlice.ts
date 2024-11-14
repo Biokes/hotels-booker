@@ -11,6 +11,7 @@ const UserSlice = createSlice({
     reducers:{
         setBaseUrl(state,action:PayloadAction<string>){
             state.base_url = action.payload
+
         }
     }
 })
