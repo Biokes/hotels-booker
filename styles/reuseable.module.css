@@ -16,7 +16,7 @@
     font-weight: 500;
     font-size: xx-large;
 }
-.navbarTexts p:hover, .current{
+.navbarInnerText :hover, .current{
     border-image: linear-gradient( to right, var(--border-color), var(--border-color)) 0 0  1 0;
     border-width: 2px;
     color: var(--border-color);
@@ -25,7 +25,7 @@
 .homeHeroParent{
     background-image:url('/slide-01.jpg');
     background-size: cover;
-    @apply flex flex-col object-cover object-center w-full h-[500px] md:h-auto justify-center pl-[10%] pt-[13%] md:pt-[5%] gap-[10px];
+    @apply flex flex-col object-cover object-center w-full h-[500px] md:h-auto justify-center pl-[10%] pt-[13%] md:py-[10%] gap-[10px];
 }
 .relax{
     font-family: 'Arial', sans-serif;
@@ -43,7 +43,7 @@
     @apply text-nowrap text-2xl font-bold border-[1px] p-[7px_10px] hover:bg-gray-100 w-[150px] flex justify-center items-center rounded hover:text-gray-700
 }
 .heroForm{
-    @apply bg-gray-200 items-center lg:w-[400px] p-[5%] md:p-[10px]
+    @apply bg-gray-200 items-center lg:w-[400px] px-[5%] py-[5%_10%] md:p-[10px]
 }
 .footerInner{
     @apply flex flex-col md:flex-row md:py-[2rem]  md:justify-between md:items-center px-[30px] gap-[30px] md:gap-[10px]
@@ -53,4 +53,19 @@
 }
 .footerInner> div{
     @apply md:w-[20rem]
+}
+.loading-text {
+    font-size: 20px;
+    font-weight: bold;
+    color:var(--border-color);
+    animation: zoomInOut 1.5s infinite ease-in-out;
+}
+
+@keyframes zoomInOut {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2); /* Zoom in */
+    }
 }
