@@ -10,6 +10,7 @@ import dubaiHotel from '@/public/7aa19415266b8ad0ad570b7d2ecc3e8e.jpg'
 import luxury from '@/public/7f6f0a8668aa2da61d9025859406e2f1.jpg'
 import japan from '@/public/download (4).jpeg'
 import australia from '@/public/Luxury Hotel in Hangzhou, China _ JW Marriott Hotel Hangzhou.jpeg'
+import ReduxProvider from "@/app/ReduxProvider";
 
 export default function Home(){
     const data : RoomsData[] = [
@@ -45,11 +46,11 @@ export default function Home(){
         }
     ]
     return (
-        <>
+        <ReduxProvider>
             <Navbar index={0}/>
             <HomeHero/>
             <Book data={data}/>
             <Footer/>
-        </>
+        </ReduxProvider>
     )
 }

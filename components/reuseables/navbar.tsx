@@ -8,7 +8,6 @@ import Link from "next/link";
 import {RootState, useAppDispatch} from "@/redux/store";
 import { useAppSelector } from '@/redux/store';
 import { setColor } from "@/redux/userSlice";
-import ReduxProvider from "@/app/ReduxProvider";
 
 export default function Navbar(props: { index: number }) {
     const [isOpen, setOpen] = useState<boolean>(false);
@@ -33,7 +32,7 @@ export default function Navbar(props: { index: number }) {
     }, [color]);
 
     return (
-        <ReduxProvider>
+        <>
             <div className={styles.navbar}>
             <section className={'flex md:gap-[10px] items-center'}>
                 <div className={`${color === "#ffffff" ? 'text-gray-950' : 'text-gray-100'} flex md:hidden`} data-testid="menu">
@@ -61,6 +60,6 @@ export default function Navbar(props: { index: number }) {
                 </div>
             </div>
         </div>
-        </ReduxProvider>
+        </>
     )
 }
