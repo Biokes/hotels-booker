@@ -12,13 +12,13 @@ export default function AboutHero(){
             <div className={styles.heroText}>
                 <p>a few word from us</p>
                 <div>
-                    <p>
+                    <p className={'text-[15px]'}>
                         Tired of your daily routine? Seeking for a place to stay and rest with
                         your family? You are in the right place! Our spa resort and hotel
                         provides luxury and historic accommodations for travelers. It combines
                         modern style and amenities with traditional values.
                     </p>
-                    <p>
+                    <p className={'text-[13px]'}>
                         All rooms are equipped with air conditioners and LCD TVs. Free WI-FI
                         service is available throughout the territory of the hotel. Our
                         restaurant food and meals from world cuisines unite people connecting

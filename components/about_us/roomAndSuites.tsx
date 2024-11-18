@@ -6,9 +6,9 @@ import Image from 'next/image'
 export default function RoomAndSuites(props:{data: RoomsData[],usersReviews: Reviews[]}){
     return (
         <>
-            <div className={'items-center px-[20px] md:px[30px]'}>
+            <div className={'items-center px-[20px] md:px-[50px] py-[20px]'}>
                 <p style={{color:'var(--text-color)'}} className={'font-bold text-2xl'}>Room and suites</p>
-                <p style={{color:'var(--text-color)'}} className={'font-thin text-sm md:text-lg'}>
+                <p style={{color:'var(--text-color)'}} className={'font-thin text-sm md:text-[15px]'}>
                     Royal Villas offers the finest accommodations with unique designs that provide both a luxurious and relaxing environment. Specially
                     selected fabrics and finishes vary from room to room, offering guests a variety of beautiful and unique atmospheres to select from.
                 </p>

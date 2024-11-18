@@ -32,11 +32,12 @@ export default function Navbar(props: { index: number }) {
     }, [color]);
 
     return (
-        <>
+        <div>
             <div className={styles.navbar}>
             <section className={'flex md:gap-[10px] items-center'}>
-                <div className={`${color === "#ffffff" ? 'text-gray-950' : 'text-gray-100'} flex md:hidden`} data-testid="menu">
-                    <Hamburger toggled={isOpen} toggle={setOpen} />
+                <div className={`flex md:hidden`} data-testid="menu">
+                    <Hamburger toggled={isOpen} toggle={setOpen} color={color === "#ffffff" ? "#050505" : "#8ca104"}/>
+
                 </div>
                 <p className={`${styles.font} ${color === "#ffffff" ? 'text-gray-700' : 'text-purple-600'} text-nowrap text-lg`}>
                     Royal Villas
@@ -60,6 +61,13 @@ export default function Navbar(props: { index: number }) {
                 </div>
             </div>
         </div>
-        </>
+            {isOpen &&
+                <div className={`${isOpen ? styles.slideOut : styles.slideIn}`}>
+                    <Link href={'/'} className={` ${props.index === 0 ? styles.current : styles.navbarInnerText}  hover:border-[2px] w-[100px] hover:border-black`}>Home</Link>
+                    <Link href={'/about_us'} className={` ${props.index === 1 ? styles.current : styles.navbarInnerText} hover:border-[2px] w-[100px] hover:border-black`}>About us</Link>
+                    <Link href={'/contact'} className={` ${props.index === 2 ? styles.current : styles.navbarInnerText}  hover:border-[2px] w-[100px] hover:border-black`}>Contact</Link>
+                </div>
+            }
+        </div>
     )
 }

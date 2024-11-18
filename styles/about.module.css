@@ -11,7 +11,7 @@
 }
 .heroText> p{
     @apply text-2xl font-bold capitalize;
-    color:var(--text-color)
+    color:#000000;
 }
 .heroText>div{
     @apply my-[15px] justify-between items-center w-full md:w-full

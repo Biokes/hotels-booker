@@ -8,7 +8,7 @@ export default function Footer() {
     const [text, setText] = useState<string>('');
     const [showMessage, setShowMessage] = useState<boolean>(false);
     const messageRef = useRef<HTMLParagraphElement>(null);
-    const [isValidEmail, setValidMail] = useState(false)
+    const [isValidEmail, setValidMail] = useState<boolean>(false)
     useEffect(() => {
         if (showMessage) {
             const timer = setTimeout(() => {
@@ -18,7 +18,9 @@ export default function Footer() {
             return () => clearTimeout(timer);
         }
     }, [showMessage]);
-    const isValid = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    const isValid =(email:string):boolean => {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+    };
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         setText('Subscribed successfully');
@@ -27,9 +29,7 @@ export default function Footer() {
     };
     return (
         <div className={'flex flex-col'}>
-            <p ref={messageRef} data-testid={'paragraph'}
-               className={`text-center w-full py-[7px] ${showMessage ? 'flex' : 'hidden'}`}
-               style={{ backgroundColor: 'var(--text-color)' }}>
+            <p ref={messageRef} data-testid={'paragraph'} className={`text-center w-full py-[7px] ${showMessage ? 'flex' : 'hidden'}`} style={{ backgroundColor: 'var(--text-color)' }}>
                 {text}
             </p>
             <div className={styles.footerInner}>
@@ -51,13 +51,12 @@ export default function Footer() {
                     <p className="text-bold text-2xl font-bold">Join our newsletter</p>
                     <div className={'flex gap-[20px] mb-[20px]'}>
                         <form >
-                            <input
-                                data-testid={'email_input'} type={'email'} value={email} placeholder={'Enter your email'}
-                                className={'w-[80%] text-black h-[30px] rounded-sm my-[10px] pl-[7px] outline-1'} onChange={(e) => {
-                                setEmail(e.target.value)
-                                setValidMail(isValid(email))
+                            <input data-testid={'email_input'} type={'email'} value={email} placeholder={'Enter your email'}
+                                className={'w-[80%] text-black h-[30px] rounded-[7px] my-[10px] pl-[7px] border-[1px] border-gray-500'} onChange={(e) => {
+                                setEmail(e.target.value);
+                                setValidMail(isValid(email));
                             }}/>
-                            <Button sx={{width:'60%', paddingBlock:'5px'}} variant={'outlined'} disabled={!isValidEmail} onClick={handleSubmit}>
+                            <Button className={`w-[60%] h-[30px] text-white lg:w-[60%] lg:h-[25px] hover:cursor-pointer text-[12px]`} variant={'contained'} disabled={!isValidEmail} onClick={handleSubmit}>
                                 Subscribe
                             </Button>
                         </form>

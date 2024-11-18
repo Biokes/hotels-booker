@@ -86,7 +86,7 @@ export default function Booking(props:{data:RoomsData[]}){
                                setValidName(validate(cityName.trim()))
                            }}/>
                     <Button type={'submit'} disabled={!isValidName || isLoading} variant={'contained'}
-                            className={`w-[30%] h-[30px] text-white lg:w-[15%] lg:h-[40px] md:text-lg hover:cursor-pointer`}>
+                            className={`w-[20%] h-[30px] text-white lg:w-[7%] lg:h-[25px] hover:cursor-pointer text-[12px]`}>
                         {isLoading ? <Icon icon='line-md:loading-loop' width={15} height={15}/> : "Find city"}
                     </Button>
                 </form>
