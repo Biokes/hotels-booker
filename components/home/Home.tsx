@@ -2,7 +2,7 @@
 import Navbar from "@/components/reuseables/navbar";
 import HomeHero from "@/components/home/HomeHero";
 import Footer from "@/components/home/footer";
-import Book from "@/components/home/booking";
+import Booking from "@/components/home/booking";
 import {RoomsData} from "@/interfaces/interfaces";
 import room from '@/public/42f4ea6f90208cd80b8848bca0bcdfc3.jpg'
 import vacation from '@/public/17ca06c108252e23ed8f230c894fe736.jpg'
@@ -49,7 +49,7 @@ export default function Home(){
         <ReduxProvider>
             <Navbar index={0}/>
             <HomeHero/>
-            <Book data={data}/>
+            <Booking data={data}/>
             <Footer/>
         </ReduxProvider>
     )

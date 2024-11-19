@@ -16,6 +16,18 @@
         transform: translateX(-100%);
     }
 }
+.light-mode {
+    --background: #ffffff;
+    --text-color: #000000;
+    --border-color: #28323e;
+}
+
+.dark-mode {
+    --background: #000000;
+    --text-color: #ffffff;
+    --border-color: #6a326a;
+}
+
 .navbar{
     @apply flex justify-between items-center h-[50px] px-[5%] shadow-2xl
 }
@@ -96,4 +108,7 @@
     background-color: #7f7f7f;
     height: 100vh;
     @apply flex flex-col items-center text-center gap-[10px] pt-[10px] w-[100px]
+}
+.loading{
+
 }

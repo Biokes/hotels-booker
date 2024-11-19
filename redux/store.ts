@@ -8,7 +8,7 @@ import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 const persistConfig = {
     key: 'hotels_root',
     storage,
-    whitelist: ['color'],
+    whitelist: ['color','bookingHotel'],
 };
 const persistedReducer = persistReducer(persistConfig, UserSlice);
 

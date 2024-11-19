@@ -1,6 +1,6 @@
 'use client'
 import Hamburger from 'hamburger-react'
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import styles from '@/styles/reuseable.module.css'
 import { Icon } from "@iconify/react";
 import '@/app/globals.css'
@@ -20,24 +20,16 @@ export default function Navbar(props: { index: number }) {
     };
 
     useEffect(() => {
-        if (color === "#000000") {
-            document.documentElement.style.setProperty('--background', '#000000');
-            document.documentElement.style.setProperty('--text-color', '#ffffff');
-            document.documentElement.style.setProperty('--border-color', '#6a326a');
-        } else {
-            document.documentElement.style.setProperty('--background', '#ffffff');
-            document.documentElement.style.setProperty('--text-color', '#000000');
-            document.documentElement.style.setProperty('--border-color', '#28323e');
-        }
+        document.documentElement.style.setProperty('--background', color === "#000000" ? '#000000' : '#ffffff');
+        document.documentElement.style.setProperty('--text-color', color === "#000000" ? '#ffffff' : '#000000');
+        document.documentElement.style.setProperty('--border-color', color === "#000000" ? '#6a326a' : '#28323e');
     }, [color]);
-
     return (
         <div>
-            <div className={styles.navbar}>
+            <div className={`${styles.navbar} ${color === "#000000" ? styles.darkMode : styles.lightMode}`}>
             <section className={'flex md:gap-[10px] items-center'}>
                 <div className={`flex md:hidden`} data-testid="menu">
-                    <Hamburger toggled={isOpen} toggle={setOpen} color={color === "#ffffff" ? "#050505" : "#8ca104"}/>
-
+                    <Hamburger toggled={isOpen} toggle={setOpen} color={color === "#ffffff" ? "#050505" : "#9333ea"}/>
                 </div>
                 <p className={`${styles.font} ${color === "#ffffff" ? 'text-gray-700' : 'text-purple-600'} text-nowrap text-lg`}>
                     Royal Villas

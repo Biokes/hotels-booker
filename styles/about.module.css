@@ -21,7 +21,7 @@
     @apply text-sm md:text-lg my-[1rem] text-center
 }
 .roomSection{
-    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-[10px_10px]
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-[10px_10px] justify-items-center
 }
 .roomSection > div{
     @apply flex flex-col h-[350px] w-[350px] md:w-[400px] md:h-[350px] lg:w-[430px] bg-no-repeat my-[10px] object-contain object-center justify-center items-center px-[10px]
@@ -66,4 +66,10 @@
 }
 .scrollContainer{
     @apply lg:top-[10%] lg:left-[10%] min-w-[100%] p-[10px] text-center flex flex-col gap-[10px] justify-around ;
+}
+.options{
+    @apply flex flex-col hover:bg-gray-200 w-[100%] pl-[10px] py-[5px]
+}
+.options> p{
+    @apply text-black text-[13px]
 }
