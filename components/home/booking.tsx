@@ -10,6 +10,57 @@ import {Box, Button, CircularProgress, Modal, TextField} from "@mui/material";
 import {useAppDispatch} from "@/redux/store";
 import {setBookingHotel} from "@/redux/userSlice";
 
+function MyModal() {
+    const SelectionModal = (props: {
+        isOpen: boolean,
+        close: () => void,
+        dataSelected: DataItem,
+        closeModal: () => void
+    }) => {
+        return (
+            <Modal open={props.isOpen} onClose={props.closeModal} sx={{
+                position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400,
+                bgcolor: 'background.paper', border: '2px solid #000', boxShadow: 24, p: 2,
+            }}>
+                <Box>
+                    <div className={'flex justify-between items-center'}>
+                        <p className={'text-[15px] font-[750]'} style={{fontFamily: 'Dm Sans'}}>Booking filters</p>
+                    </div>
+                    <form>
+                        <div className={'flex justify-between'}>
+                            <section>
+                                <p>Checkin date</p>
+                                <input type='date' placeholder='checkInDate' required/>
+                            </section>
+                            <section>
+                                <p>Checkout Date</p>
+                                <input type="date" placeholder='checkOutDate' required/>
+                            </section>
+                        </div>
+                        <section>
+                            <div>
+                                <p>Number of Adults (Optional)</p>
+                                <TextField type="text" label={'Number of adults'} placeholder={'Number of adults'}/>
+                            </div>
+                            <div>
+                                <p>Number of Children (Optional)</p>
+                                <TextField type="text" label={'Number of Children'} placeholder={'Number of Children'}/>
+                            </div>
+                            <div>
+                                <p>Number of Adults (Optional)</p>
+                                <TextField type="text" label={''}/>
+                            </div>
+                        </section>
+
+                        <Button variant={'contained'}>Search</Button>
+                    </form>
+                </Box>
+            </Modal>
+        )
+    }
+    return SelectionModal;
+}
+
 export default function Booking(props: { data: RoomsData[] }) {
     const [cityName, setCityName] = useState<string>('');
     const [isLoading, setLoading] = useState<boolean>(false);
@@ -44,46 +95,7 @@ export default function Booking(props: { data: RoomsData[] }) {
     const close =()=>{setPopUp(false); }
     dispatch(setBookingHotel(selectedData))
     const [showSearchButton, setShowSearchButton] = useState<boolean>(true);
-    const SelectionModal =(props:{isOpen:boolean, close:()=>void, dataSelected:DataItem, closeModal:()=>void})=>{
-        return (
-                <Modal  open={props.isOpen} onClose={props.closeModal} sx={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400,
-                    bgcolor: 'background.paper', border: '2px solid #000', boxShadow: 24, p:2,}}>
-                    <Box>
-                        <div className={'flex justify-between items-center'}>
-                            <p className={'text-[15px] font-[750]'} style={{fontFamily:'Dm Sans'}}>Booking filters</p>
-                        </div>
-                        <form>
-                            <div className={'flex justify-between'}>
-                                <section>
-                                    <p>Checkin date</p>
-                                    <input type='date' placeholder='checkInDate' required/>
-                                </section>
-                                <section>
-                                    <p>Checkout Date</p>
-                                    <input type="date" placeholder='checkOutDate' required/>
-                                </section>
-                            </div>
-                            <section>
-                                <div>
-                                    <p>Number of Adults (Optional)</p>
-                                    <TextField type="text" label={'Number of adults'} placeholder={'Number of adults'}/>
-                                </div>
-                                <div>
-                                    <p>Number of Children (Optional)</p>
-                                    <TextField type="text" label={'Number of Children'} placeholder={'Number of Children'}/>
-                                </div>
-                                <div>
-                                    <p>Number of Adults (Optional)</p>
-                                    <TextField type="text" label={''}/>
-                                </div>
-                            </section>
-
-                            <Button variant={'contained'}>Search</Button>
-                        </form>
-                    </Box>
-                </Modal>
-        )
-    }
+    const SelectionModal = MyModal();
     const PopUp = (index: number) => {
         setPopUp(!popUp);
         setSelectedIndex(index)
