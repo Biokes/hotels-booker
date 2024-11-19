@@ -1,6 +1,19 @@
 import {createSlice, PayloadAction,} from "@reduxjs/toolkit";
 import {DataItem, UserState} from "@/interfaces/interfaces";
-const hotelsFound: DataItem[] =[] ;
+const hotelsFound: DataItem= {
+    hierarchy: '',
+    location: '',
+    score: 0,
+    entityName: '',
+    entityId: '',
+    entityType: '',
+    highlight: {
+        entityName: '',
+        hierarchy: '',
+    },
+    class: '',
+    pois: null
+} ;
 
 const initialState:UserState ={
     color:'#ffffff',

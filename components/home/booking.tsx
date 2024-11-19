@@ -44,9 +44,9 @@ export default function Booking(props: { data: RoomsData[] }) {
     const close =()=>{setPopUp(false); }
     dispatch(setBookingHotel(selectedData))
     const [showSearchButton, setShowSearchButton] = useState<boolean>(true);
-    const SelectionModal =(props:{isOpen:boolean, close:()=>void, dataSelected:DataItem})=>{
+    const SelectionModal =(props:{isOpen:boolean, close:()=>void, dataSelected:DataItem, closeModal:()=>void})=>{
         return (
-                <Modal  open={props.isOpen} onClose={handleModalClose} sx={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400,
+                <Modal  open={props.isOpen} onClose={props.closeModal} sx={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400,
                     bgcolor: 'background.paper', border: '2px solid #000', boxShadow: 24, p:2,}}>
                     <Box>
                         <div className={'flex justify-between items-center'}>
@@ -63,10 +63,22 @@ export default function Booking(props: { data: RoomsData[] }) {
                                     <input type="date" placeholder='checkOutDate' required/>
                                 </section>
                             </div>
-                            <TextField type="text" label={'Number of adults'} placeholder={'Number of adults'}/>
-                            <TextField type="text" label={'Number of Children'} placeholder={'Number of Children'}/>
-                            <TextField  type="text" label={''}/>
-                            <Button>Search</Button>
+                            <section>
+                                <div>
+                                    <p>Number of Adults (Optional)</p>
+                                    <TextField type="text" label={'Number of adults'} placeholder={'Number of adults'}/>
+                                </div>
+                                <div>
+                                    <p>Number of Children (Optional)</p>
+                                    <TextField type="text" label={'Number of Children'} placeholder={'Number of Children'}/>
+                                </div>
+                                <div>
+                                    <p>Number of Adults (Optional)</p>
+                                    <TextField type="text" label={''}/>
+                                </div>
+                            </section>
+
+                            <Button variant={'contained'}>Search</Button>
                         </form>
                     </Box>
                 </Modal>
@@ -77,7 +89,6 @@ export default function Booking(props: { data: RoomsData[] }) {
         setSelectedIndex(index)
         setSelectedData(data.data[index])
     };
-
     const search = async (data: string) => {
         try {
             setLoading(true);
@@ -122,7 +133,6 @@ export default function Booking(props: { data: RoomsData[] }) {
             });
         }
     };
-
     return (
         <div className={'flex flex-col gap-[20px] py-[10px] bg-gray-300'}>
             <div className={`relative ${styles.roomSection}`}>
@@ -184,7 +194,7 @@ export default function Booking(props: { data: RoomsData[] }) {
                     )}
                 </div>
             )}
-            <SelectionModal isOpen={popUp} close={close} dataSelected={selectedData}/>
+            <SelectionModal isOpen={popUp} close={close} dataSelected={selectedData} closeModal={handleModalClose}/>
             <ToastContainer />
         </div>
     );
