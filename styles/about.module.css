@@ -73,3 +73,19 @@
 .options> p{
     @apply text-black text-[13px]
 }
+.innerProps{
+    background: rgba(186, 215, 237, 0.8);
+    @apply h-[350px]
+}
+.innerInput{
+    @apply rounded-[5px] text-black bg-white p-[10px] w-[100%] sm:w-[150px] h-[40px] text-[15px]
+}
+.labels{
+    @apply text-[10px] px-[7px] gap-[10px] flex flex-col justify-center
+}
+.labels p{
+    @apply text-[12px] font-thin
+}
+.labels input{
+    @apply w-[100%] sm:w-[80%] p-[5px] h-[30px] rounded-[4px] text-gray-950
+}
