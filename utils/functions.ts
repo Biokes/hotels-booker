@@ -30,6 +30,22 @@ export async function ImportHotels(args: DataItem[]): Promise<HotelResponse[]> {
     }
     return results;
 }
+export function createSearchUrl(data:{
+    entityId: string;
+    checkin: string;
+    checkout: string;
+    adults?: string;
+}): string {
+    const queryParams = new URLSearchParams(
+        Object.entries(data).reduce((acc, [key, value]) => {
+            if (value) acc[key] = value;
+            return acc;
+        }, {} as Record<string, string>)
+    );
+
+    return `https://flights-sky.p.rapidapi.com/hotels/search?${queryParams.toString()}`
+}
+
 export const DefaultResults: Results = {
     priceType: "perNight",
     pricePolicy: "freeCancellation",
