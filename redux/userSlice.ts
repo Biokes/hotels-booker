@@ -1,6 +1,5 @@
 import {createSlice, PayloadAction,} from "@reduxjs/toolkit";
-import {DataItem, Results, UserState} from "@/interfaces/interfaces";
-import {DefaultResults} from "@/utils/functions";
+import {DataItem, UserState} from "@/interfaces/interfaces";
 
 const hotelsFound: DataItem= {
     hierarchy: '',
@@ -20,7 +19,6 @@ const hotelsFound: DataItem= {
 const initialState:UserState ={
     color:'#ffffff',
     bookingHotel: hotelsFound,
-    result:DefaultResults
 
 }
 const UserSlice = createSlice({
@@ -32,12 +30,9 @@ const UserSlice = createSlice({
         },
         setBookingHotel(state, action:PayloadAction<DataItem>){
             state.bookingHotel = action.payload
-        },
-        setResult(state, action:PayloadAction<Results>){
-            state.result= action.payload
         }
     }
 })
 
-export const {setColor,setBookingHotel,setResult} = UserSlice.actions;
+export const {setColor,setBookingHotel} = UserSlice.actions;
 export default UserSlice.reducer;

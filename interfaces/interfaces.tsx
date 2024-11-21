@@ -19,7 +19,6 @@ export interface Reviews extends RoomsData {
 export interface UserState {
     color: string;
     bookingHotel: DataItem;
-    result: Results| [];
 }
 export interface Contact {
     name: string;
