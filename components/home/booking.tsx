@@ -13,13 +13,39 @@ import {CloseIcon} from "next/dist/client/components/react-dev-overlay/internal/
 import replaceImage from '@/public/download (4).jpeg'
 import GradeIcon from '@mui/icons-material/Grade';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import ReduxProvider from "@/app/ReduxProvider";
 
 export default function Booking(props: { data: RoomsData[] }) {
     const [responseData, setResponseData]= useState<Data| []>([])
     const [result , setResult] = useState<Results>()
-
-    function MyModal(args: { entityId:string, returnValue: Results | undefined; setReturnValue: React.Dispatch<React.SetStateAction<Results | undefined>>}) {
-
+    const [hotelsFound, setHotelsFound] = useState<Results>()
+    const [cityName, setCityName] = useState<string>('');
+    const [isLoading, setLoading] = useState<boolean>(false);
+    const [popUp, setPopUp] = useState<boolean>(false);
+    const [selectedIndex, setSelectedIndex] = useState<number>(-1)
+    const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const [data, setData] = useState<RootObject>({message: '', status: false, data: []});
+    const [isResultLoading, setResultLoading] = useState(false)
+    const dispatch = useAppDispatch()
+    const [isInputShowing, setInputShowing] = useState<boolean>(true)
+    const [selectedData, setSelectedData] = useState<DataItem>({
+        class: "",
+        entityId: "",
+        entityName: "",
+        entityType: "",
+        hierarchy: "",
+        highlight: {
+            entityName: '',
+            hierarchy: '',
+        },
+        location: "",
+        pois: null,
+        score: 0
+    })
+    const [showSearchButton, setShowSearchButton] = useState<boolean>(true);
+    function MyModal(args: { entityId:string, returnValue: Results | undefined;
+                     setReturnValue: React.Dispatch<React.SetStateAction<Results | undefined>>,
+                     setResultLoader:React.Dispatch<React.SetStateAction<boolean>>}) {
         const SelectionModal = (props: { isOpen: boolean, closeModal: () => void }) => {
             const [checkInDate, setCheckInDate] = useState<string>('');
             const [checkOutDate, setCheckOutDate] = useState<string>('');
@@ -51,6 +77,7 @@ export default function Booking(props: { data: RoomsData[] }) {
 
             const handleSubmit = async (e: React.FormEvent<Element> | undefined) => {
                 e?.preventDefault();
+                args.setResultLoader(true)
                 props.closeModal()
                 if (isFormValid) {
                     console.log('Form submitted:', {checkInDate, checkOutDate});
@@ -71,20 +98,24 @@ export default function Booking(props: { data: RoomsData[] }) {
                     let result: HotelResponse = await response.json();
                     setResponseData(result.data)
                     setIsCalled(!isCalled)
-                    for(let count = 0; count < 5; count++){
-                        if(!Array.isArray(responseData) && responseData.status?.completionPercentage != 100) {
+                    for(let count = 0; count <4; count++){
+                        console.log(!Array.isArray(responseData) && responseData.status?.completionPercentage != 100)
+                        console.log(!Array.isArray(responseData))
+                        if(Array.isArray(responseData)) {
+                            console.log('Response Date = ',responseData)
+                            break;
+                        }
+                        else if(responseData.status?.completionPercentage !== 100){
                             await new Promise((resolve) => setTimeout(resolve, 2000));
                             response = await fetch(url, options);
                             result = await response.json();
                             setResponseData(result.data)
-                            console.log(result)
-                            console.log('Condition = ', !Array.isArray(responseData) && responseData.status?.completionPercentage != 100)
+
                         }
                         if(count== 4){
                             console.log(responseData)
                         }
                     }
-
                     args.setReturnValue(result.data.results)
                 } catch (error) {
                     if(error instanceof Error) {
@@ -93,6 +124,9 @@ export default function Booking(props: { data: RoomsData[] }) {
                     else{
                         toast.error('Something went wrong')
                     }
+                }
+                finally{
+                    setResultLoading(false)
                 }
             };
 
@@ -138,48 +172,28 @@ export default function Booking(props: { data: RoomsData[] }) {
                 </Modal>
             )
         }
-
         return SelectionModal;
     }
-    const [cityName, setCityName] = useState<string>('');
-    const [isLoading, setLoading] = useState<boolean>(false);
-    const [popUp, setPopUp] = useState<boolean>(false);
-    const [selectedIndex, setSelectedIndex] = useState<number>(-1)
-    const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-    const [data, setData] = useState<RootObject>({
-        message: '',
-        status: false,
-        data: []
-    });
-    const dispatch = useAppDispatch()
+    useEffect(()=>{
+        setResult(undefined);
+        setResultLoading(false)
+        setLoading(false)
+        setResponseData([])
+    }, [])
     const handleModalClose = () => {
         setPopUp(false);
         dispatch(setBookingHotel(selectedData));
     };
-    const [hotelsFound, setHotelsFound] = useState<Results>()
 
-    const [selectedData, setSelectedData] = useState<DataItem>({
-        class: "",
-        entityId: "",
-        entityName: "",
-        entityType: "",
-        hierarchy: "",
-        highlight: {
-            entityName: '',
-            hierarchy: '',
-        },
-        location: "",
-        pois: null,
-        score: 0
-    })
-    const [showSearchButton, setShowSearchButton] = useState<boolean>(true);
-    const SelectionModal = MyModal({entityId:selectedData.entityId, returnValue: result,setReturnValue: setResult});
+    const SelectionModal = MyModal({entityId:selectedData.entityId, returnValue: result,setReturnValue: setResult, setResultLoader: setResultLoading});
+
     const PopUp = (index: number) => {
         setPopUp(!popUp);
         setSelectedIndex(index)
         setCityName('')
         setSelectedData(data.data[index])
     };
+
     const search = async (data: string) => {
         try {
             if (!navigator.onLine) {
@@ -229,144 +243,128 @@ export default function Booking(props: { data: RoomsData[] }) {
         }
     }
 
-    return (
-        <div>
-            {isLoading?
-                <div>
-                    <div className={Array.isArray(hotelsFound) ? 'hidden' : 'flex flex-col gap-[20px] py-[10px] bg-gray-300'}>
-                        <div className={`relative ${styles.roomSection}`}>
-                            {props.data.map((item, index) => (
-                                <div key={index}
-                                     className={`md:order-${index} group relative w-full h-full overflow-hidden`}>
-                                    <div
-                                        className="w-full h-full transition-transform duration-300 ease-in-out transform group-hover:scale-110 group-hover:brightness-[.8] brightness-[.7]">
-                                        <Image src={item.image.src} alt="" width={300} height={300}
-                                               className="object-cover w-full h-full"/>
-                                    </div>
-                                    <div
-                                        className="absolute inset-0 border-2 border-transparent border-white animate-border-animation z-10 pointer-events-none m-[30px] p-[10px]">
-                                        <div
-                                            className="absolute inset-0 flex flex-col items-center justify-center text-white z-20">
-                                            <p className={styles.heading}>Price: {item.heading}</p>
-                                            <p className={styles.description}>{item.description}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                        {showSearchButton ? (
-                            <div className="flex justify-center py-[10px]">
-                                <Button variant="contained" onClick={() => setShowSearchButton(false)}>Find
-                                    City</Button>
-                            </div>
-                        ) : (
-                            <div className={`flex flex-col py-[10px] pl-[20px] relative`}>
-                                <p className={'text-gray-600'}>Find Hotel By city</p>
-                                <input type="text" placeholder="City name..." name={'cityName'} value={cityName}
-                                       className={'w-[70%] lg:w-[30%] h-[40px] rounded-md text-black p-[5px]'}
-                                       onChange={(e) => {
-                                           const value = e.target.value;
-                                           setCityName(value);
-                                           if (debounceTimeoutRef.current) clearTimeout(debounceTimeoutRef.current);
-                                           debounceTimeoutRef.current = setTimeout(() => {
-                                               if (value.trim()) {
-                                                   search(value.trim())
-                                               }
-                                           }, 1000);
-                                       }}
-                                />
-                                {isLoading ? (
-                                    <p className={'w-[70%] lg:w-[30%] shadow-md border-[1px] p-1 items-center flex justify-center'}>
-                                        <CircularProgress size={40}/>
-                                    </p>
-                                ) : (
-                                    <div>
-                                        {cityName &&
-                                        data.data.length > 0 ? (
-                                            <div
-                                                className={'flex flex-col w-[70%] lg:w-[30%] max-h-[100px] overflow-y-auto border-[1px] gap-[1px] shadow-md mt-[1px]'}>
-                                                {data.data.map((options, index) => (
-                                                    <div key={index} className={styles.options} onClick={() => {
-                                                        setSelectedIndex(index);
-                                                        PopUp(selectedIndex);
-                                                        setSelectedData(options);
-                                                        setCityName('')
-                                                    }}>
-                                                        <p className={'text-[13px]'}>{options.entityName}</p>
-                                                        <p className={'text-[15px] font-[700]'}>{options.hierarchy}</p>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        ) : (
-                                            <p className={'text-[12px] md:text-[14px] font-[900]'}>no result found</p>
-                                        )
+    function findHotelAction(e: React.ChangeEvent<HTMLInputElement>) {
+        const value = e.target.value;
+        setCityName(value);
+        if (debounceTimeoutRef.current) clearTimeout(debounceTimeoutRef.current);
+        debounceTimeoutRef.current = setTimeout(() => {
+            if (value.trim()) {
+                search(value.trim())
+            }
+        }, 1000);
+    }
 
-                                        }
+    return (
+        <ReduxProvider>
+                <div className={Array.isArray(hotelsFound) ? 'hidden' : 'flex flex-col gap-[20px] py-[10px] bg-gray-300'}>
+                <div className={`relative ${styles.roomSection}`}>
+                    {props.data.map((item, index) => (
+                        <div key={index} className={`md:order-${index} group relative w-full h-full overflow-hidden`}>
+                            <div className="w-full h-full transition-transform duration-300 ease-in-out transform group-hover:scale-110 group-hover:brightness-[.8] brightness-[.7]">
+                                <Image src={item.image.src} alt="" width={300} height={300} className="object-cover w-full h-full"/>
+                            </div>
+                            <div className="absolute inset-0 border-2 border-transparent border-white animate-border-animation z-10 pointer-events-none m-[30px] p-[10px]">
+                                <div className="absolute inset-0 flex flex-col items-center justify-center text-white z-20">
+                                    <p className={styles.heading}>Price: {item.heading}</p>
+                                    <p className={styles.description}>{item.description}</p>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                {showSearchButton ? (
+                    <div className="flex justify-center py-[10px]">
+                        <Button variant="contained" onClick={() => {setShowSearchButton(false);}}>Find City</Button>
+                    </div>
+                ) : (
+                    <div className={!isInputShowing ? 'hidden':'flex flex-col py-[10px] pl-[20px] relative'}>
+                        <p className={'text-gray-600'}>Find Hotel By city</p>
+                        <input type="text" placeholder="City name..." name={'cityName'} value={cityName} className={'w-[70%] lg:w-[30%] h-[40px] rounded-md text-black p-[5px]'} onChange={(e) => {findHotelAction(e);}}/>
+                        {isLoading ? (
+                            <p className={'w-[70%] lg:w-[30%] shadow-md border-[1px] p-1 items-center flex justify-center'}>
+                                <CircularProgress size={40}/>
+                            </p>
+                        ) : (
+                            <div>
+                                {cityName && data.data.length > 0 ? (
+                                    <div className={'flex flex-col w-[70%] lg:w-[30%] max-h-[100px] overflow-y-auto border-[1px] gap-[1px] shadow-md mt-[1px]'}>
+                                        {data.data.map((options, index) => (
+                                            <div key={index} className={styles.options} onClick={() => {
+                                                setSelectedIndex(index);PopUp(selectedIndex);setSelectedData(options);
+                                                setCityName('');setInputShowing(false)}}>
+                                                <p className={'text-[13px]'}>{options.entityName}</p>
+                                                <p className={'text-[15px] font-[700]'}>{options.hierarchy}</p>
+                                            </div>
+                                        ))}
                                     </div>
-                                )}
+                                ) : (
+                                    <p className={'text-[12px] md:text-[14px] font-[900]'}>no result found</p>
+                                )
+
+                                }
                             </div>
                         )}
-                        <SelectionModal isOpen={popUp} closeModal={handleModalClose}/>
-                        <ToastContainer/>
                     </div>
-                    <div>
-                        <p className={'w-[100%] h-[300px] items-center flex justify-center'}>
-                            <CircularProgress size={50}/>
-                            <p style={{color: 'var(--text-color)'}} className={'text-[17px]'}>Loading..</p>
-                        </p>
-                    </div>
+                )}
+            </div>
+            <div className={isResultLoading? 'flex':'hidden'}>
+                <div className={'w-[100%] h-[300px] items-center flex justify-center'}>
+                    <CircularProgress size={50}/>
+                    <p style={{color: 'var(--text-color)'}} className={'text-[17px]'}>Loading..</p>
                 </div>
-                :
-                <div
-                    className={!Array.isArray(hotelsFound) ? 'hidden' : 'flex flex-col gap-[10px] px-[10px] py-[20px] pl-[35px] bg-gray-100'}>
-                    <p className={'text-[20px] font-[900]'} style={{color: 'black'}}>Found Results</p>
-                    <div>
-                        <div className={'flex flex-col gap-[15px] columns-[250px] justify-between px-[15px]'}>
-                            {
-                                MapResultsToHotelInfo(result as Results).map((item, index) => {
-                                        console.log(item.images)
+            </div>
+            <div className={isResultLoading? 'hidden' : `flex flex-col gap-[10px] px-[10px] py-[20px] pl-[10px ]sm:pl-[35px] bg-gray-300`}>
+                {
+                    result ? (
+                        <>
+                            <p className={'text-[20px] font-[900]'} style={{color: 'black'}}>Found Results</p>
+                            <div className={` flex flex-col gap-[15px] sm:columns-[300px] w-full h-auto max-h-[300px] overflow-y-auto justify-between px-[15px]`}>
+                                {
+                                    MapResultsToHotelInfo(result ?? ({} as Results)).map((item, index) => {
                                         const imageUrl = item.images[0]?.startsWith('http') ? item.images[0] : replaceImage
                                         return (
-                                            <div key={index}
-                                                 className={'border-[1px] p-[5px] flex w-full sm:w-[400px] -ml-[10px] sm:-ml-0 justify-center items-center hover:border-[2px]'}>
-                                                <div className={'flex w-[50px] h-[50px]'}>
-                                                    <Image src={imageUrl} alt={''} width={100} height={100}
-                                                           className={'object-center object-cover'}/>
+                                            <div key={index} className={'border-[1px] p-[5px] flex w-full sm:w-[400px] h-[200px] -ml-[10px] sm:-ml-0 justify-center items-center hover:border-[1px]'}>
+                                                <div className={'flex w-[100px] h-[100px] sm:w-[50px] sm:h-[50px]'}>
+                                                    <Image src={imageUrl} alt={''} width={120} height={120} className={'object-center object-cover'}/>
                                                 </div>
-                                                <section
-                                                    className={'flex justify-center flex-col gap-[5px] w-full px-[15px] md:px-0'}>
+                                                <section className={'flex justify-center flex-col gap-[5px] px-[15px] md:px-0 w-[70%] sm:w-[200px]'}>
                                                     <div className={'flex justify-between items-center'}>
-                                                        <p style={{color: 'black', fontWeight: 720}}
-                                                           className={'text-[20px] w-[80%] overflow-ellipsis'}>{item.name}</p>
+                                                        <p style={{color: 'black', fontWeight: 720}} className={'text-[12px] sm:text-[17px] w-[80%] overflow-hidden whitespace-nowrap text-ellipsis'}>{item.name}</p>
                                                     </div>
                                                     <div className={'flex justify-between py-[7px]'}>
                                                         <section className={'flex gap-[15px] justify-center'}>
-                                                            <LocalOfferIcon className={'w-[20px] h-[20px]'}
-                                                                            style={{color: 'var(--text-color)'}}/>
-                                                            <p style={{color: 'black'}}>{item.price} Per Night</p>
+                                                            <LocalOfferIcon className={'w-[20px] h-[20px]'} style={{color: 'var(--text-color)'}}/>
+                                                            <p style={{color: 'black'}} className={'text-black flex items-center w-[70%] text-[9px] sm:text-[12px] whitespace-nowrap overflow-hidden text-ellipsis'}>
+                                                                {item.price} Per Night
+                                                            </p>
                                                         </section>
-                                                        <section className={'flex gap-[15px] justify-center'}>
-                                                            <GradeIcon className={'w-[20px] h-[20px]'}
-                                                                       style={{color: 'gold'}}/>
-                                                            <p style={{color: 'black'}}>{item.rating}</p>
+                                                        <section className={'flex gap-1 sm:gap-[15px] justify-center items-center'}>
+                                                            <GradeIcon className={'w-[20px] h-[20px]'} style={{color: 'gold'}}/>
+                                                            <p style={{color: 'black'}} className={'text-[10px]'}>{item.rating?? '3'}</p>
                                                         </section>
                                                     </div>
                                                 </section>
                                             </div>
                                         )
-                                    }
-                                )
-                            }
+                                    })
+                                }
+                            </div>
+                        </>
+                    ) : (
+                        <div className={isInputShowing?'':'hidden'}>
+                            <p className={'text-[15px] text-center text-black '}>No Results</p>
                         </div>
-                        <div className="flex justify-center py-[10px] w-[100%] items-center mt-[20px]">
-                            <Button variant="contained" onClick={() => {
-                                setHotelsFound(undefined)
-                            }}>Find City</Button>
-                        </div>
-                    </div>
+                    )
+                }
+                <div className={!isInputShowing ? "flex justify-center py-[10px] w-[100%] items-center mt-[20px]":'hidden'}>
+                    <Button variant="contained" onClick={() => {setHotelsFound(undefined);setInputShowing(true)
+                        setShowSearchButton(false)}}>
+                        Find City
+                    </Button>
                 </div>
-            }
-        </div>
+            </div>
+            <SelectionModal isOpen={popUp} closeModal={handleModalClose}/>
+            <ToastContainer/>
+        </ReduxProvider>
     );
 }
-

@@ -59,10 +59,9 @@ export const MapResultsToHotelInfo = (results: Results): {
     stars: string;
     paymentPolicy: LowestPrice | string;
 }[] => {
-    if (!results || results.hotelCards.length === 0) {
+    if (!results || !results.hotelCards || !Array.isArray(results.hotelCards)) {
         return [];
     }
-
     return results.hotelCards.map((hotel): {
         images: string[];
         distance: string;
@@ -78,14 +77,15 @@ export const MapResultsToHotelInfo = (results: Results): {
         return {
             name: hotel.name,
             images: hotel.images,
-            price: hotel.lowestPrice.price,
+            price: hotel.lowestPrice?.price || "no data available",
             paymentPolicy: hotel.lowestPrice || "no data available",
             location: hotel.relevantPoiDistance,
             coordinates: hotel.coordinates,
-            rating: hotel.reviewsSummary ? hotel.reviewsSummary.score : undefined,
+            rating: hotel.reviewsSummary?.score,
             distance: hotel.distance || "no data available",
             stars: hotel.stars || "1",
-            popularWith: hotel.confidentMessages.length > 0 ? hotel.confidentMessages[0].message : null,
+            popularWith: hotel.confidentMessages?.[0]?.message || null,
         };
     });
 };
+

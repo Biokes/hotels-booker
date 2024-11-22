@@ -141,7 +141,7 @@ export interface Filter {
     title: string;
     values: FilterValue[];
 }
-export interface Results {
+export type Results= {
     priceType: string;
     pricePolicy: string;
     searchSummary: SearchSummary;
