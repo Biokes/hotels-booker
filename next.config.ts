@@ -2,8 +2,12 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
     images: {
-        domains: ['content.skyscnr.com'],
-    },
+        remotePatterns: [
+            {
+              protocol: 'https',
+              hostname: 'content.skyscnr.com',
+            },
+          ],    },
 };
 
 export default nextConfig;
