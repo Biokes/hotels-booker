@@ -1,7 +1,7 @@
 'use client'
 import Navbar from "@/components/reuseables/navbar";
 import AboutHeader from "@/components/about_us/header";
-import Footer from "@/components/home/footer";
+import Footer from "@/components/reuseables/footer";
 import AboutHero from "@/components/about_us/aboutHero";
 import RoomAndSuites from "@/components/about_us/roomAndSuites";
 import {Reviews, RoomsData} from "@/interfaces/interfaces";

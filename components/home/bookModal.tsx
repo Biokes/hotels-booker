@@ -1,153 +1,137 @@
 'use client'
-import { Modal, Box, Typography, IconButton, DialogActions, Button } from '@mui/material';
-// import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
+import {Modal, Box, Typography, IconButton, DialogActions, TextField,Button} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-// import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
-// import { useDispatch } from 'react-redux';
-// import Image from 'next/image';
-import 'react-datepicker/dist/react-datepicker.css';
-// import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-// import {DatePicker} from "@mui/x-date-pickers";
-
+import {ReactNode, useState} from 'react'
+import Image from 'next/image'
+import styles from '@/styles/reuseable.module.css'
 interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
 }
 
 export default function BookingModal({ isOpen, onClose }: ModalProps){
-    const handleSubmit = () => {
+    const [formValues, setFormValues] = useState({
+        location: '',
+        checkInDate: '',
+        checkOutDate: ''
+    });
+    const defaultContent =()=> (
+        <div>
+            <div className={'flex justify-between items-center border-b-[1px]'}>
+                <Typography variant="h6" component="h2" sx={{ color: '#475661', fontSize: { xs: '1.2rem', sm: '1.5rem' },width:'80%%', margin:'10px' }}>
+                    Search by Location
+                </Typography>
+                <IconButton onClick={onClose} className={'hover:bg-red-500 hover:text-white transform transition-all duration-[300]'}>
+                    <CloseIcon />
+                </IconButton>
+            </div>
+            <form onSubmit={(e) => {
+                e.preventDefault();
+                proceedToCheckHotels();
+            }}>
+                <Box className={'px-[20px] md:px-[30px] pt-[20px]'}>
+                    <Box className={styles.sectionPack}>
+                        <div>
+                            <p>Location</p>
+                            <input className={styles.inputTags} type="text" placeholder="Eg. Lagos" value={formValues.location} max="2025-12-31"
+                                       onChange={(e) => {
+                                       setFormValues({...formValues, location: e.target.value})
+                                   }}
+                            />
+                        </div>
+                    </Box>
+                    <Box className={styles.sectionPack}>
+                        <div>
+                            <p>Arrival Date</p>
+                            <input className={styles.inputTags} type="date" value={formValues.checkInDate}
+                                       onChange={(e) => {
+                                       setFormValues({...formValues, checkInDate: e.target.value})
+                                   }}
+                                       min={new Date().toISOString().split('T')[0]} required={true}
+                            />
+                        </div>
+                        <div>
+                            <p>Departure Date</p>
+                            <input className={styles.inputTags} type="date" value={formValues.checkOutDate} required={true}
+                                       onChange={(e) => {
+                                       setFormValues({...formValues, checkOutDate: e.target.value})
+                                   }}
+                                       min={formValues.checkInDate  ?
+                                       new Date(new Date(formValues.checkInDate ).getTime() + 24 * 60 * 60 * 1000).toISOString().split('T')[0] :
+                                       new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOString().split('T')[0]}
+                            />
+                        </div>
+                    </Box>
+                </Box>
+                <DialogActions sx={{ mt:3 }}>
+                    <Button variant="outlined" onClick={onClose}>Cancel</Button>
+                    <Button variant="contained" type="submit"
+                            disabled={!formValues.location.trim() || !formValues.checkInDate || !formValues.checkOutDate ||
+                                new Date(formValues.checkOutDate) < new Date(formValues.checkInDate)}
+                    >
+                        Proceed
+                    </Button>
+                </DialogActions>
+            </form>
+        </div>
+    )
 
+    const [modalContent, setModalContent] = useState<ReactNode>(defaultContent())
+    const hotelsData= [
+        {
+            imageURl: "https://media.istockphoto.com/id/119926339/photo/resort-swimming-pool.jpg?s=612x612&w=0&k=20&c=9QtwJC2boq3GFHaeDsKytF4-CavYKQuy1jBD2IRfYKc=",
+            price:"400,000",
+            name:"The Guest House",
+            rating:'4.7'
+        },
+        {
+            imageURl: "https://as2.ftcdn.net/jpg/00/09/21/15/1000_F_9211505_d4hxfNtPeTfgt7AeGmoO7u79P2hwxkoQ.jpg",
+            price:"300,000",
+            name:'Lodge Hotels',
+            rating:"4.5"
+        },
+        {
+            imageURl: "https://as2.ftcdn.net/jpg/02/95/21/53/1000_F_295215313_mTUn9iAqmfVHCiEGfOuaz9tmjG0JDa1p.jpg",
+            price:"200,000",
+            name:'Green light Suites',
+            rating:'4.5'
+        },
+    ]
+    const hotelsInLocation =()=>(
+            <div className={'flex flex-col gap-[10px] overflow-auto'}>
+                {
+                    hotelsData.map((index) => (
+                        <div key={index.name} className={'flex gap-[10px] border-[1px] border-gray-200 rounded-[20px] px-[5px]'}>
+                            <div className={'w-[40%] h-[40%]'}>
+                                <Image src={index.imageURl} alt={'hotel'} className={'w-full h-full'}/>
+                            </div>
+                            <section className={'flex flex-col gap-[7px]'}>
+                                <p className={'text-[13px] font-[650]'}>{index.name}</p>
+                                <p className={'text-[13px] font-thin'}>price: <strong>N {index.price}</strong></p>
+                                <p>ratings: <strong>{index.rating}/5</strong></p>
+                            </section>
+                        </div>
+                    ))
+                }
+            </div>
+    )
+    const proceedToCheckHotels = () => {
+        setModalContent(hotelsInLocation())
     };
 
     if (!isOpen) return null;
-
     return (
         <>
             <div className="fixed inset-0 bg-customBlue_dark bg-opacity-80 z-40" onClick={onClose}></div>
-
             <Modal open={isOpen} onClose={onClose}>
                 <Box sx={{
                         position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
-                        width: { xs: '90%', sm: '70%' }, backgroundColor: 'background.paper', boxShadow: 24,
-                        p: { xs: 2, sm: 4 }, borderRadius: 2, zIndex: 50,overflowY: 'auto', maxHeight: '80vh',
+                        width: { xs: '90%', sm: '70%', md:'40%' }, backgroundColor: 'background.paper', boxShadow: 24,
+                        p: 2, borderRadius: 2, zIndex: 50,overflowY: 'auto', maxHeight: '80vh',
                     }}>
-                    <IconButton onClick={onClose} sx={{ position: 'absolute', top: 8, right: 8 }}>
-                        <CloseIcon />
-                    </IconButton>
-
-                    <Typography variant="h6" component="h2" sx={{ mb: 2, color: '#475661', fontSize: { xs: '1.2rem', sm: '1.5rem' } }}>
-                        Book
-                    </Typography>
-
-                    <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
-                        {/*<Box sx={{ mb: 2 }}>*/}
-                        {/*    <Typography variant="body2" sx={{ mb: 1, color: '#475661' }}>Cohort Name</Typography>*/}
-                        {/*    <TextField fullWidth placeholder="Ex. Cohort 1" variant="outlined" size="small"*/}
-                        {/*               value={cohortName} onChange={(e) => {*/}
-                        {/*        e.preventDefault()*/}
-                        {/*        setCohortName(e.target.value)*/}
-                        {/*    }} InputProps={{ style: { color: '#475661' } }}/>*/}
-                        {/*</Box>*/}
-
-                        {/*<Box sx={{ mb: 2 }}>*/}
-                        {/*    <Typography variant="body2" sx={{ mb: 1, color: '#475661' }}>Description</Typography>*/}
-                        {/*    <TextField*/}
-                        {/*        fullWidth*/}
-                        {/*        multiline*/}
-                        {/*        rows={3}*/}
-                        {/*        placeholder="Ex. A space for Python developers"*/}
-                        {/*        variant="outlined"*/}
-                        {/*        size="small"*/}
-                        {/*        value={description}*/}
-                        {/*        onChange={(e) => {*/}
-                        {/*            e.preventDefault()*/}
-                        {/*            setDescription(e.target.value)*/}
-                        {/*        }}*/}
-                        {/*        InputProps={{ style: { color: '#475661' } }}*/}
-                        {/*    />*/}
-                        {/*</Box>*/}
-
-                        {/*<Box sx={{ mb: 2 }}>*/}
-                        {/*    <Typography variant="body2" sx={{ mb: 1, color: '#475661' }}>Program</Typography>*/}
-                        {/*    /!*<TextField*!/*/}
-                        {/*    /!*    select*!/*/}
-                        {/*    /!*    fullWidth*!/*/}
-                        {/*    /!*    // value={program}*!/*/}
-                        {/*    /!*    // onChange={(e) => setProgram(e.target.value)}*!/*/}
-                        {/*    /!*    variant="outlined"*!/*/}
-                        {/*    /!*    size="small"*!/*/}
-                        {/*    /!*    InputProps={{ style: { color: '#475661' } }}*!/*/}
-                        {/*    /!*>*!/*/}
-                        {/*        <MenuItem value="" disabled>*/}
-                        {/*            Select Program*/}
-                        {/*        </MenuItem>*/}
-                        {/*        {[*/}
-                        {/*            { id: 1, name: "Product Design" },*/}
-                        {/*            { id: 2, name: "Software Engineering" },*/}
-                        {/*            { id: 3, name: "Techpreneurship" },*/}
-                        {/*            { id: 4, name: "Dev-ops" },*/}
-                        {/*            { id: 5, name: "Creative Design" },*/}
-                        {/*            { id: 6, name: "UX Writer" },*/}
-                        {/*        ].map((program) => (*/}
-                        {/*            <MenuItem key={program.id} value={program.name}>*/}
-                        {/*                {program.name}*/}
-                        {/*            </MenuItem>*/}
-                        {/*        ))}*/}
-                        {/*    </TextField>*/}
-                        {/*</Box>*/}
-
-                        {/*<Box sx={{ mb: 2, display: 'flex', gap: 2, flexDirection: { xs: 'column', sm: 'row' } }}>*/}
-                        {/*    <div>*/}
-                        {/*        <p className={'text-xs'}>Start Date</p>*/}
-                        {/*        <div className="relative flex">*/}
-                        {/*            <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} placeholderText="23 Dec 2021"*/}
-                        {/*                        minDate={new Date()} dateFormat="dd-MM-yyyy"*/}
-                        {/*                        className="w-full p-2 border rounded text-sm outline-none focus:ring-2 focus:ring-[#008eef]*/}
-                        {/*                        focus:border-[#008eef]"/>*/}
-                        {/*            <span className="absolute flex justify-center pointer-events-none">*/}
-                        {/*                <CalendarTodayIcon className="h-[18px] w-[18px] ml-[160px] mt-[10px] text-[#475661]"/>*/}
-                        {/*            </span>*/}
-                        {/*        </div>*/}
-                        {/*    </div>*/}
-                        {/*    <div>*/}
-                        {/*        <p className={'text-xs'}>End Date</p>*/}
-                        {/*        <div className="relative flex">*/}
-                        {/*            <DatePicker selected={endDate} onChange={(date) => setEndDate(date)}*/}
-                        {/*                        minDate={new Date(new Date().setDate(new Date().getDate() + 1))}*/}
-                        {/*                        dateFormat="dd-MM-yyyy" placeholderText="23 Dec 2023"*/}
-                        {/*                        className="w-full p-2 border rounded text-sm outline-none focus:ring-2 focus:ring-[#008eef]*/}
-                        {/*                        focus:border-[#008eef]"/>*/}
-                        {/*            <span className="absolute flex justify-center pointer-events-none">*/}
-                        {/*                <CalendarTodayIcon className="h-[18px] w-[18px] ml-[160px] mt-[10px] text-[#475661]"/>*/}
-                        {/*            </span>*/}
-                        {/*        </div>*/}
-                        {/*    </div>*/}
-                        {/*</Box>*/}
-
-                        {/*<Box sx={{mb: 2}}>*/}
-                        {/*    <Typography variant="body2" sx={{mb: 1, color: '#475661'}}>Add a cohort avatar</Typography>*/}
-                        {/*    <Box sx={{*/}
-                        {/*            border: '2px dashed lightblue',*/}
-                        {/*            borderRadius: '8px',*/}
-                        {/*            textAlign: 'center',*/}
-                        {/*            cursor: 'pointer',*/}
-                        {/*            mt: 1,*/}
-                        {/*            backgroundColor: '#eaf5fa',*/}
-                        {/*            height: '100px',*/}
-                        {/*            overflow: 'hidden'*/}
-                        {/*        }}>*/}
-                        {/*</Box>*/}
-
-                        <DialogActions sx={{ mt: 2 }}>
-                            <Button variant="outlined" onClick={onClose}>Cancel</Button>
-                            <Button variant="contained" type="submit">
-                                Create Cohort
-                            </Button>
-                        </DialogActions>
-                    </form>
+                    {modalContent}
                 </Box>
             </Modal>
         </>
     );
 };
-

@@ -1,5 +1,5 @@
 import {fireEvent, render, screen} from "@testing-library/react";
-import Footer from "@/components/home/footer";
+import Footer from "@/components/reuseables/footer";
 import React from "react";
 
 jest.useFakeTimers();

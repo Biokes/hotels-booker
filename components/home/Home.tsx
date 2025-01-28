@@ -1,7 +1,7 @@
 'use client'
 import Navbar from "@/components/reuseables/navbar";
 import HomeHero from "@/components/home/HomeHero";
-import Footer from "@/components/home/footer";
+import Footer from "@/components/reuseables/footer";
 import Booking from "@/components/home/booking";
 import {RoomsData} from "@/interfaces/interfaces";
 import room from '@/public/42f4ea6f90208cd80b8848bca0bcdfc3.jpg'

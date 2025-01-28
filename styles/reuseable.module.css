@@ -10,10 +10,10 @@
 }
 @keyframes __slideInLeft {
     from{
-        transform: translateX(0);
+        transform: translateX(100%);
     }
     to{
-        transform: translateX(-100%);
+        transform: translateX(0);
     }
 }
 .light-mode {
@@ -48,7 +48,7 @@
     color: var(--text-color);
 }
 .navbarInnerText :hover, .current{
-    border-image: linear-gradient( to right, var(--border-color), var(--border-color)) 0 0  1 0;
+    border-image: linear-gradient(to right, var(--border-color), var(--border-color)) 0 0  1 0;
     border-width: 2px;
     color: var(--text-color);
 }
@@ -83,7 +83,7 @@
     color: var(--text-color);
 }
 .footerInner> div{
-    @apply md:w-[20rem]
+    @apply md:w-[20rem] py-[14px] bg-gray-200 rounded-md h-[150px] px-[18px]
 }
 .loading-text {
     font-size: 20px;
@@ -105,10 +105,61 @@
     position: absolute;
     z-index: 20;
     display: block;
-    background-color: #7f7f7f;
+    background-color: var(--background);
     height: 100vh;
     @apply flex flex-col items-center text-center gap-[10px] pt-[10px] w-[100px]
 }
-.loading{
-
+.book{
+    @apply p-[5px_10px] text-nowrap border-[2px] rounded-[10px] hover:cursor-pointer w-[100%];
+    background:var(--border-color);
+    color: white;
+    border:var(--border-color);
+    font-size: 15px;
+}
+.slideIn{
+    position: absolute;
+    z-index: 20;
+    display: block;
+    background-color: var(--background);
+    height: 100vh;
+    animation: __slideInLeft .5s ease-in;
+    @apply flex flex-col items-center text-center gap-[10px] pt-[10px] w-[100px]
+}
+.inputTags{
+    border-radius: 10px;
+    outline: 2px solid #4a90e2;
+    color:black;
+    padding-inline : 10px;
+    @apply w-[80%] md:w-[200px] h-[40px];
+}
+/*.inputTags:focus{*/
+/*    outline: #171717;*/
+/*    @apply border-black border-[1px];*/
+/*}*/
+/*.inputTags[type="date"]:valid::after{*/
+/*    @apply outline-green-700;*/
+/*}*/
+/*.inputTags[type="date"]:invalid::after{*/
+/*    @apply outline-red-500;*/
+/*    color: red;*/
+/*    font-size: 12px;*/
+/*    margin-top: 5px;*/
+/*    display: block;*/
+/*}*/
+/*.inputTags[type="text"]:invalid::after{*/
+/*    @apply outline-red-500 w-[80%] md:w-[60%];*/
+/*    color: red;*/
+/*    font-size: 12px;*/
+/*    margin-top: 5px;*/
+/*    display: block;*/
+/*}*/
+.sectionPack{
+    @apply flex flex-col lg:flex-row md:gap-[40px];
+}
+.sectionPack >* >p{
+    @apply text-[15px] text-black font-[600] ;
+    font-family: 'Arial', sans-serif;
+}
+.sectionPack> div{
+    @apply gap-[10px] flex flex-col pt-[20px]
 }
