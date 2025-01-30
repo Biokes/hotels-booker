@@ -97,7 +97,6 @@ export default function BookingModal() {
     }
     const hotelsInLocation = () => (
         <div>
-
             <Box className={'flex justify-between items-center border-b-[1px] transform transition-all duration-[300] '}>
                 <div className={'flex gap-[10px]'}>
                     <IconButton onClick={searchAgain}>
