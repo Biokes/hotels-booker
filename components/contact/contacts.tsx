@@ -8,12 +8,10 @@ import BookingModal from "@/components/home/bookModal";
 
 export default function ContactPage(){
     return (
-        <ReduxProvider>
+        <>
             <Navbar index={2}/>
             <AboutHeader text={'Contacts'}/>
             <Message/>
-            <Footer/>
-            <BookingModal/>
-        </ReduxProvider>
+        </>
     )
 }

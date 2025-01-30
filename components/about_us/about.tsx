@@ -1,7 +1,6 @@
 'use client'
 import Navbar from "@/components/reuseables/navbar";
 import AboutHeader from "@/components/about_us/header";
-import Footer from "@/components/reuseables/footer";
 import AboutHero from "@/components/about_us/aboutHero";
 import RoomAndSuites from "@/components/about_us/roomAndSuites";
 import {Reviews, RoomsData} from "@/interfaces/interfaces";
@@ -14,8 +13,6 @@ import img6 from '@/public/grid-gallery-6-370x276.jpg'
 import review1 from '@/public/about-05-100x100.jpg'
 import review2 from '@/public/about-02-100x100.jpg'
 import review3 from '@/public/about-04-100x100.jpg'
-import ReduxProvider from "@/app/ReduxProvider";
-import BookingModal from "@/components/home/bookModal";
 
 export default function About(){
     const collection:RoomsData[] = [
@@ -38,13 +35,11 @@ export default function About(){
                 'They exceeded all my expectations again, this is the first place to visit if you want a better service.'}
     ]
     return (
-        <ReduxProvider>
+        <>
             <Navbar index={1}/>
             <AboutHeader text={'About us'}/>
             <AboutHero/>
             <RoomAndSuites data={collection} usersReviews={review}/>
-            <Footer/>
-            <BookingModal/>
-        </ReduxProvider>
+        </>
     )
 }
