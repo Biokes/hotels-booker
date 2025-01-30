@@ -15,6 +15,7 @@ import review1 from '@/public/about-05-100x100.jpg'
 import review2 from '@/public/about-02-100x100.jpg'
 import review3 from '@/public/about-04-100x100.jpg'
 import ReduxProvider from "@/app/ReduxProvider";
+import BookingModal from "@/components/home/bookModal";
 
 export default function About(){
     const collection:RoomsData[] = [
@@ -43,6 +44,7 @@ export default function About(){
             <AboutHero/>
             <RoomAndSuites data={collection} usersReviews={review}/>
             <Footer/>
+            <BookingModal/>
         </ReduxProvider>
     )
 }

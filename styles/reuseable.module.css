@@ -40,23 +40,26 @@
 }
 .font{
     font-family: 'Spicy Rice', sans-serif;
-    font-style: italic;
+    /*font-style: italic;*/
     font-weight: 500;
     font-size: xx-large;
 }
 .navbarInnerText{
     color: var(--text-color);
+    font-size: 13px;
+    @apply hover:underline
 }
 .navbarInnerText :hover, .current{
     border-image: linear-gradient(to right, var(--border-color), var(--border-color)) 0 0  1 0;
     border-width: 2px;
     color: var(--text-color);
+    font-size:13px;
 }
 
 .homeHeroParent{
     background-image:url('/slide-01.jpg');
     background-size: cover;
-    @apply flex flex-col object-cover object-center w-full h-[500px] md:h-auto justify-center pl-[10%] pt-[13%] md:py-[10%] gap-[10px];
+    @apply flex flex-col object-cover object-center w-full h-[500px] md:h-auto justify-center pl-[10%] pt-[13%] md:py-[10%] gap-[10px] cursor-text;
 }
 .relax{
     font-family: 'Arial', sans-serif;
@@ -77,13 +80,18 @@
     @apply bg-gray-200 items-center lg:w-[400px] px-[5%] py-[5%_10%] md:p-[10px]
 }
 .footerInner{
-    @apply flex flex-col md:flex-row md:py-[2rem]  md:justify-between md:items-center px-[30px] gap-[30px] md:gap-[10px]
+    @apply flex flex-col md:flex-row md:py-[2rem] md:justify-between md:items-center px-[30px] gap-[30px] md:gap-[10px] border-[1px] border-gray-300 py-[20px]
 }
 .footerInner p{
-    color: var(--text-color);
+    font-size: 13px;
+    color: black;
+}
+.footerInner h4{
+    color: black;
+    padding-bottom: 13px;
 }
 .footerInner> div{
-    @apply md:w-[20rem] py-[14px] bg-gray-200 rounded-md h-[150px] px-[18px]
+    @apply md:w-[22rem] py-[14px] bg-gray-200 rounded-md h-[150px] px-[18px] shadow-md border-[1px] border-gray-400
 }
 .loading-text {
     font-size: 20px;
@@ -114,7 +122,7 @@
     background:var(--border-color);
     color: white;
     border:var(--border-color);
-    font-size: 15px;
+    font-size: 12px;
 }
 .slideIn{
     position: absolute;
@@ -125,13 +133,7 @@
     animation: __slideInLeft .5s ease-in;
     @apply flex flex-col items-center text-center gap-[10px] pt-[10px] w-[100px]
 }
-.inputTags{
-    border-radius: 10px;
-    outline: 2px solid #4a90e2;
-    color:black;
-    padding-inline : 10px;
-    @apply w-[80%] md:w-[200px] h-[40px];
-}
+
 /*.inputTags:focus{*/
 /*    outline: #171717;*/
 /*    @apply border-black border-[1px];*/
@@ -153,6 +155,19 @@
 /*    margin-top: 5px;*/
 /*    display: block;*/
 /*}*/
+.hotelCardTexts{
+    display :flex;
+    flex-direction: column;
+    gap:5px;
+    @apply w-4/5 pt-[20px];
+}
+.hotelCardTexts h4{
+    @apply text-[13px] sm:text-[17px] font-[700] text-black w-full;
+    font-family: Arial,Helvetica, sans-serif;
+}
+.hotelCardTexts p{
+    @apply text-[13px] font-thin capitalize text-black
+}
 .sectionPack{
     @apply flex flex-col lg:flex-row md:gap-[40px];
 }
@@ -160,6 +175,9 @@
     @apply text-[15px] text-black font-[600] ;
     font-family: 'Arial', sans-serif;
 }
-.sectionPack> div{
+.sectionPack> *{
     @apply gap-[10px] flex flex-col pt-[20px]
+}
+.sectionPack input{
+    @apply rounded px-[10px] w-[80%] md:w-[300px] h-[45px] border-black border-[1px] active:border-none  text-black outline-[#4a90e2] outline-[2px] cursor-pointer;
 }
