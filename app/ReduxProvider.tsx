@@ -1,32 +1,34 @@
-"use client"
-import React, {ReactNode, useEffect} from "react";
+'use client'
+import React, { ReactNode, useEffect } from "react";
 import { Provider } from "react-redux";
 import { store } from "@/redux/store";
 import { persistStore } from "redux-persist";
 import Footer from "@/components/reuseables/footer";
 import BookingModal from "@/components/home/bookModal";
 
-export default function ReduxProvider({ children }: ReactNode) {
+interface ReduxProviderProps {
+    children: ReactNode;
+}
 
-  const persistor = persistStore(store);
+export default function ReduxProvider({ children }: ReduxProviderProps) {
+    const persistor = persistStore(store);
 
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      persistor.purge();
-    };
+    useEffect(() => {
+        const handleBeforeUnload = () => {
+            persistor.purge();
+        };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-    
-  }, [persistor]);
+        window.addEventListener("beforeunload", handleBeforeUnload);
+        return () => {
+            window.removeEventListener("beforeunload", handleBeforeUnload);
+        };
+    }, [persistor]);
 
-  return (
-            <Provider store={store}>
-                {children}
-              <Footer />
-              <BookingModal />
-            </Provider>
-        );
+    return (
+        <Provider store={store}>
+            {children}
+            <Footer />
+            <BookingModal />
+        </Provider>
+    );
 }
