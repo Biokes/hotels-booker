@@ -19,10 +19,6 @@ export default function BookingModal() {
     const toggle = ()=>{
         dispatch(toggleModal(!isOpen))
     }
-    useEffect(()=>{
-        toggle()
-    },[isOpen])
-
     const handleChange=(event: React.ChangeEvent<HTMLInputElement>)=>{
         const { name, value } = event.target;
         setFormValues(prevValues => ({...prevValues,[name]: value
