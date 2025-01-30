@@ -1,7 +1,7 @@
 'use client'
 import {Modal, Box, Typography, IconButton, DialogActions, Button} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import React, {ReactNode, useState} from 'react';
+import React, {ReactNode, useEffect, useState} from 'react';
 import Image from 'next/image';
 import styles from '@/styles/reuseable.module.css';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
@@ -18,6 +18,10 @@ export default function BookingModal() {
     const toggle = ()=>{
         dispatch(toggleModal(!isOpen))
     }
+    useEffect(()=>{
+        toggle()
+    },[isOpen])
+
     const handleChange=(event: React.ChangeEvent<HTMLInputElement>)=>{
         const { name, value } = event.target;
         setFormValues(prevValues => ({...prevValues,[name]: value
@@ -45,13 +49,13 @@ export default function BookingModal() {
                         <section className={styles.sectionPack}>
                             <div>
                                 <p>Location</p>
-                                <input type="text" placeholder="Eg. Lagos" name={'location'} onChange={handleChange} value={formValues.location}/>
+                                <input type="text" placeholder="Eg. Lagos" name={'location'} onChange={handleChange} />
                             </div>
                         </section>
                         <section className={styles.sectionPack}>
                             <Box>
                                 <p>Arrival Date</p>
-                                <input type="date" onChange={handleChange} placeholder={'2025-12-20'} name={'checkInDate'} value={formValues.checkInDate}
+                                <input type="date" onChange={handleChange} placeholder={'2025-12-20'} name={'checkInDate'}
                                        min={new Date().toISOString().split('T')[0]} required
                                 />
                             </Box>
