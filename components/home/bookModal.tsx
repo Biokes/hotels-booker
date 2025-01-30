@@ -7,6 +7,7 @@ import styles from '@/styles/reuseable.module.css';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import {useDispatch, useSelector} from "react-redux";
 import {toggleModal} from "@/redux/userSlice";
+import {RootState} from "@/redux/store";
 export default function BookingModal() {
     const [formValues, setFormValues]= useState({
         location:'',
@@ -14,7 +15,7 @@ export default function BookingModal() {
         price:''
     }) ;
     const dispatch = useDispatch()
-    const isOpen = useSelector((state) => state.user.isOpen)
+    const isOpen = useSelector((state:RootState) => state.user.isOpen)
     const toggle = ()=>{
         dispatch(toggleModal(!isOpen))
     }
