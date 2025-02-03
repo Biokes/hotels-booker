@@ -18,7 +18,11 @@ export interface Reviews extends RoomsData {
 
 export interface UserState {
     color: string;
-    isOpen:boolean
+    isOpen:boolean,
+    details: {
+        location: string ,
+        checkInDate: string
+    }
 }
 export interface Contact {
     name: string;

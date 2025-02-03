@@ -181,3 +181,72 @@
 .sectionPack input{
     @apply rounded px-[10px] w-[80%] md:w-[300px] h-[45px] border-black border-[1px] active:border-none  text-black outline-[#4a90e2] outline-[2px] cursor-pointer;
 }
+.input input{
+    border: solid #000000 1px;
+    width: 80%;
+    height: 40px;
+    color: #000000;
+    border-radius: 10px;
+    padding:10px;
+    @apply shadow-lg;
+}
+.input div{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+.input{
+    background-color: #a29ca2;
+    display:flex;
+    flex-direction: column;
+    gap:10px;
+    border-radius: 15px;
+    padding:10px;
+    width:80%;
+    margin-top: 40px;
+    transition:transform 2s ease-in;
+    @apply shadow-lg;
+}
+.input:hover{
+    transform: translate(10px, -10px);
+}
+.input button{
+    cursor: pointer;
+    width: 100px;
+    border-radius: 10px;
+}
+/* .input button :valid{
+    background-color: rgb(83, 150, 231);
+    color:white;
+}
+.input button :invalid{
+    background-color: #a2a2a2;
+    color: rgb(104, 104, 104);
+    cursor: not-allowed;
+} */
+@media screen and (min-width: 600px){
+    .input{
+        width: 500px;
+    }
+}
+@keyframes fadeOut {
+    0% {
+        opacity: 0;
+        visibility: visible;
+    }
+    25%{
+        opacity: 1;
+        visibility:hidden;
+    }
+    50% {
+        opacity: 0;
+        visibility: visible;
+    }
+    100% {
+        opacity: 1;
+        visibility: hidden;
+    }
+}
+.animate:hover{
+    animation: fadeInOut 3s ease-in-out;
+}

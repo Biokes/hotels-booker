@@ -8,6 +8,7 @@ import vacation from '@/public/17ca06c108252e23ed8f230c894fe736.jpg'
 import dubaiHotel from '@/public/7aa19415266b8ad0ad570b7d2ecc3e8e.jpg'
 import luxury from '@/public/7f6f0a8668aa2da61d9025859406e2f1.jpg'
 import japan from '@/public/download (4).jpeg'
+import React from "react";
 
 export default function Home(){
     const data : RoomsData[] = [
@@ -44,7 +45,7 @@ export default function Home(){
     ]
     return (
         <>
-             <Navbar index={0}/>
+            <Navbar index={0}/>
             <HomeHero/>
             <Booking data={data}/>
         </>

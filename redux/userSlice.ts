@@ -5,7 +5,10 @@ import {UserState} from "@/interfaces/interfaces";
 const initialState:UserState = {
     color:'#ffffff',
     isOpen: false,
-
+    details:{
+        location:'',
+        checkInDate:''
+    }
 }
 const UserSlice = createSlice({
     name:'user',
@@ -13,9 +16,12 @@ const UserSlice = createSlice({
     reducers:{
         toggleModal(state, action:PayloadAction<boolean>){
             state.isOpen = action.payload
+        },
+        setDetails(state, action:PayloadAction<{location:string,checkInDate:string}>){
+            state.details = action.payload
         }
     }
 })
 
-export const {toggleModal} = UserSlice.actions;
+export const {toggleModal,setDetails} = UserSlice.actions;
 export default UserSlice.reducer;

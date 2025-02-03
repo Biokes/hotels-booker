@@ -4,7 +4,6 @@ import { Provider } from "react-redux";
 import { store } from "@/redux/store";
 import { persistStore } from "redux-persist";
 import Footer from "@/components/reuseables/footer";
-import BookingModal from "@/components/home/bookModal";
 
 interface ReduxProviderProps {
     children: ReactNode;
@@ -28,7 +27,6 @@ export default function ReduxProvider({ children }: ReduxProviderProps) {
         <Provider store={store}>
             {children}
             <Footer />
-            <BookingModal />
         </Provider>
     );
 }

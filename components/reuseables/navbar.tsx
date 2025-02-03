@@ -8,6 +8,7 @@ import {RootState} from "@/redux/store";
 import { useAppSelector } from '@/redux/store';
 import {useDispatch} from "react-redux";
 import {toggleModal} from "@/redux/userSlice";
+import BookingModal from "@/components/home/bookModal";
 
 export default function Navbar(props: { index: number }) {
     const [isOpen, setOpen] = useState<boolean>(false);
@@ -51,6 +52,7 @@ export default function Navbar(props: { index: number }) {
                     <Link href={'/contact'} className={` ${props.index === 2 ? styles.current : styles.navbarInnerText}  hover:${styles.current}`}>Contact</Link>
                 </div>
             }
+            <BookingModal />
         </div>
     )
 }
