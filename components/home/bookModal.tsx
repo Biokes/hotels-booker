@@ -111,7 +111,7 @@ export default function BookingModal() {
                 <div className={'flex flex-col gap-[10px] overflow-auto mt-[20px]'}>
                     {hotelsData.map((hotel, index) => (
                         <div key={index}
-                            className={`flex gap-[10px] border-[1px] border-gray-200 rounded-md p-[10px] bottom-1 ${styles.animate}
+                            className={`flex gap-[10px] border-[1px] border-gray-200 rounded-md p-[7px] bottom-1 ${styles.animate}
                                     hover:cursor-pointer transform transition-all duration-[300] hover:rounded-md`}
                         >
                             <div className={'w-[150px] h-[150px] overflow-hidden rounded-md border-[2px]'}>
