@@ -32,7 +32,7 @@
     @apply flex justify-between items-center h-[50px] px-[5%] shadow-2xl
 }
 .navbarTexts{
-    @apply hidden md:flex justify-between items-center gap-[30px]
+    @apply hidden md:flex justify-between items-center gap-[30px] md:mr-[30px]
 }
 .navbarTexts p{
     @apply font-light justify-center items-center p-[10px_5px] cursor-pointer;
@@ -181,7 +181,7 @@
 .sectionPack input{
     @apply rounded px-[10px] w-[80%] md:w-[300px] h-[45px] border-black border-[1px] active:border-none  text-black outline-[#4a90e2] outline-[2px] cursor-pointer;
 }
-.input input{
+.textField{
     border: solid #000000 1px;
     width: 80%;
     height: 40px;
@@ -202,13 +202,13 @@
     gap:10px;
     border-radius: 15px;
     padding:10px;
-    width:80%;
+    width:70%;
     margin-top: 40px;
-    transition:transform 2s ease-in;
+    transition:transform 1s ease-in;
     @apply shadow-lg;
 }
 .input:hover{
-    transform: translate(10px, -10px);
+    transform: translate(3px, -3px);
 }
 .input button{
     cursor: pointer;
@@ -249,4 +249,11 @@
 }
 .animate:hover{
     animation: fadeInOut 3s ease-in-out;
+}
+.textFieldContainer {
+    @apply border-b-[2px];
+}
+.textFields *{
+    width: min(100%, 400px);
+    @apply break-inside-avoid;
 }

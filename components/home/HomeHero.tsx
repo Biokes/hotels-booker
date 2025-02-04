@@ -4,11 +4,7 @@ import { Button } from '@mui/material';
 import { useState, useEffect } from 'react';
 import {setDetails, toggleModal} from "@/redux/userSlice";
 import {useDispatch} from "react-redux";
-// type Booking = {
-//     location: string,
-//     checkInDate: string,
-//     price:number
-// }
+
 export default function HomeHero() {
     const [checkInDate, setCheckInDate] = useState<string>('')
     const [location, setLocation] = useState<string>('')
@@ -34,10 +30,14 @@ export default function HomeHero() {
                 <div className={styles.input}>
                     <p className={'pl-[20px] text-gray-100 text-[15px] font-[650]'}>Make a search</p>
                     <div>
-                        <input type="text" value={location} placeholder='los angeles' onChange={(e) => {setLocation(e.target.value);}} />
-                        <input type="date" value={checkInDate} onChange={(e) => {setCheckInDate(e.target.value)}} />
+                        <input type="text" value={location} className={styles.textField} arial-label={"Location"}
+                            placeholder='Search a city name' onChange={(e) => { setLocation(e.target.value); }} />
+                        <input type="date" value={checkInDate} className={styles.textField} aria-label="check-in Date"
+                            min={new Date().toISOString().split("T")[0]}
+                            onFocus={(e) => e.target.showPicker && e.target.showPicker()}
+                            onChange={(e) => { setCheckInDate(e.target.value) }} />
                     </div>
-                    <Button variant={"contained"} disabled={!isValid} onClick={openModal}>
+                    <Button variant={"contained"} disabled={!isValid} sx={{height:'30px',}} onClick={openModal}>
                         Search
                     </Button>
                 </div>

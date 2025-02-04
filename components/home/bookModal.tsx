@@ -1,5 +1,5 @@
 'use client'
-import {Modal, Box, Typography, IconButton, DialogActions, Button} from '@mui/material';
+import {Modal, Box, Typography, IconButton, DialogActions, Button, TextField} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import React, {ReactNode, useEffect, useState} from 'react';
 import Image from 'next/image';
@@ -8,66 +8,14 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import {useDispatch, useSelector} from "react-redux";
 import {toggleModal} from "@/redux/userSlice";
 import {RootState} from "@/redux/store";
+import AddCardIcon from '@mui/icons-material/AddCard';
 
 export default function BookingModal() {
-    // const [location , setLocation] = useState<string>('')
-    // const [checkInDate , setCheckInDate] = useState<string>('')
-    // const [isValid, setValid] = useState<boolean>(false)
     const dispatch = useDispatch()
     const isOpen = useSelector((state:RootState) => state.user.isOpen)
     const toggle = ()=>{
         dispatch(toggleModal(false))
     }
-    // useEffect(() => {
-    //     setValid( location.trim().length>0 && checkInDate.trim().length>0)
-    //     isFormValid()
-    // }, [location, checkInDate]);
-    // const isFormValid=()=>{
-    //          return location.trim().length>0 && checkInDate.trim().length>0
-    // }
-    // function  ModalForm(){
-    //     return  (
-    //         <div>
-    //                 <Box className={'flex justify-between items-center border-b-[1px]'}>
-    //                     <Typography variant="h6" component="h2" sx={{
-    //                         color: '#475661', fontSize: {xs: '15px', sm: '20px'}, width: '80%', margin: '10px'
-    //                     }}>
-    //                         Search by Location
-    //                     </Typography>
-    //                     <IconButton onClick={toggle} className={'hover:bg-red-500 hover:text-white transform transition-all duration-[300]'}>
-    //                         <CloseIcon/>
-    //                     </IconButton>
-    //                 </Box>
-    //                 <Box sx={{paddingInline: {xs: '20px', md: '30px]'}, paddingTop: '20px'}}>
-    //                     <section className={styles.sectionPack}>
-    //                         <div>
-    //                             <p>Location</p>
-    //                         <input type="text" placeholder="Eg. Lagos" value={location} name={'location'} onChange={(event)=>{
-    //                                 setLocation(event.target.value);
-    //                             }} />
-    //                         </div>
-    //                     </section>
-    //                     <section className={styles.sectionPack}>
-    //                         <Box>
-    //                             <p>Arrival Date</p>
-    //                         <input type="date" value={checkInDate} onChange={(event)=>{
-    //                                 setCheckInDate(event.target.value)
-    //
-    //                             }} placeholder={'2025-12-20'} name={'checkInDate'}
-    //                                    min={new Date().toISOString().split('T')[0]} required
-    //                             />
-    //                         </Box>
-    //                     </section>
-    //                 </Box>
-    //                 <DialogActions sx={{mt: 3}}>
-    //                     <Button variant="outlined" onClick={toggle} className={'hover:bg-red-400 hover:text-white'} >Cancel</Button>
-    //                     <Button variant="contained" onClick={proceedToCheckHotels} disabled={!isValid}>
-    //                         Proceed
-    //                     </Button>
-    //                 </DialogActions>
-    //         </div>
-    //     )
-    // }
     const hotelsData = [
         {
             imageURl: "https://media.istockphoto.com/id/119926339/photo/resort-swimming-pool.jpg?s=612x612&w=0&k=20&c=9QtwJC2boq3GFHaeDsKytF4-CavYKQuy1jBD2IRfYKc=",
@@ -88,11 +36,14 @@ export default function BookingModal() {
             rating: '4.5'
         },
     ];
+    const [isOpenPayment, setOpenPayment] = useState<boolean>(false);
+    const [hotelSelected, setSelection] = useState<{imageURl:string,price:string,name:string,rating:string}>({imageURl:'',price:'',name:'',rating:''})
+    const togglePaymentSelectionModal = () => { 
+        setOpenPayment(!isOpenPayment)
+    }
     const hotelsInLocation = () => {
-
-
         return (
-            <div>
+            <div className={'w-full h-full'}>
                 <Box className={'flex justify-between items-center border-b-[1px] transform transition-all duration-[300] '}>
                     <div className={'flex gap-[10px]'}>
                         <IconButton onClick={() => {toggle()}} className={'hidden'}>
@@ -100,7 +51,7 @@ export default function BookingModal() {
                         </IconButton>
                         <Typography variant="h6" component="h4" sx={{
                             color: '#475661', fontSize: { xs: '15px', sm: '17px' }, width: '80%', margin: '7px'
-                        }}>
+                        }} className={'text-nowrap'}>
                             Available Hotels
                         </Typography>
                     </div>
@@ -108,14 +59,12 @@ export default function BookingModal() {
                         <CloseIcon />
                     </IconButton>
                 </Box>
-                <div className={'flex flex-col gap-[10px] overflow-auto mt-[20px]'}>
+                <div className={'flex flex-col gap-[10px] overflow-auto mt-[20px] h-[80%]'}>
                     {hotelsData.map((hotel, index) => (
-                        <div key={index}
-                            className={`flex gap-[10px] border-[1px] border-gray-200 rounded-md p-[7px] bottom-1 ${styles.animate}
-                                    hover:cursor-pointer transform transition-all duration-[300] hover:rounded-md`}
-                        >
-                            <div className={'w-[150px] h-[150px] overflow-hidden rounded-md border-[2px]'}>
-                                <Image src={hotel.imageURl} alt={'hotel'} width={150} height={150} className={'w-full h-full object-center object-cover'} />
+                        <div className={`flex gap-[10px] border-[1px] border-gray-200 rounded-md p-[7px] bottom-1 hover:cursor-pointer transform transition-all duration-[300] hover:rounded-md`}
+                            key={index} onClick={() => {setSelection(hotel);togglePaymentSelectionModal()}}>
+                            <div className={'w-[100px] h-[100px] overflow-hidden rounded-md border-[2px]'}>
+                                <Image src={hotel.imageURl} alt={'hotel'} width={100} height={100} className={'w-full h-full object-center object-cover'} />
                             </div>
                             <section className={styles.hotelCardTexts}>
                                 <h4>{hotel.name}</h4>
@@ -129,10 +78,81 @@ export default function BookingModal() {
                 <DialogActions sx={{ mt: 3 }}>
                     <Button variant="outlined" onClick={toggle} className={'hover:bg-red-400 hover:text-white'} >Cancel</Button>
                 </DialogActions>
-            </div>
-           
+            </div>  
         )
-
+    }
+    const MakePayment = ({ price }: {price:string}) => {
+       
+        const [cardData, setCardData] = useState<{ cardNumber: string, expiryDate: string, cvv: string }>({cardNumber: "",cvv: '',expiryDate:''})
+        const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+            const value = e.target.value.replace(/\D/g, '');
+            const formattedValue = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+            setCardData({ ...cardData, cardNumber: formattedValue });
+            }
+        const handleExpiryDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+            const value = e.target.value.replace(/\D/g, '');
+            if (value.length <= 4) {
+                const formattedValue = value.replace(/(\d{2})(\d{0,2})/, '$1/$2');
+                setCardData({ ...cardData, expiryDate: formattedValue });
+            }
+        };
+        const handleCVVChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+            const value = e.target.value.replace(/\D/g, '');
+            if (value.length <= 4) {
+              setCardData({ ...cardData, cvv: value });
+            }
+        }
+        const validateExpiryDate = (date: string) => {
+            const [month, year] = date.split('/');
+            const currentYear = new Date().getFullYear() % 100;
+            const currentMonth = new Date().getMonth() + 1;
+            if (!month ||!year ||+month < 1 ||+month > 12 ||+year < currentYear ||(+year === currentYear && +month < currentMonth)) {return false;}
+            return true;
+        };
+        const isFormValid =
+        cardData.cardNumber.replace(/\s/g, "").length === 16 &&
+        validateExpiryDate(cardData.expiryDate) &&
+        cardData.cvv.length >= 3 &&
+        cardData.cvv.length <= 4;
+    
+        return (
+            <div className='w-full p-[10px]'>
+                <div className={`flex justify-betweeen items-center px-[10px] ${styles.textFieldContainer}`}>
+                    <IconButton onClick={() => {togglePaymentSelectionModal()}}>
+                        <KeyboardBackspaceIcon />
+                    </IconButton>
+                    <div className='flex gap-[5px]'>
+                        <p className='text-blue-400 text-[15px] font-bold text-nowrap'>Pay with Card </p>
+                        <AddCardIcon/>
+                    </div>
+                </div>
+                <div className={`mt-[20px] flex-col flex justify-center items-center gap-[10px] ${styles.textFields}`}>
+                    <TextField
+                        label="Card Number"
+                        variant="outlined"
+                        value={cardData.cardNumber}
+                        onChange={handleCardNumberChange}
+                        inputProps={{ maxLength: 17, minLength:16}}
+                    />
+                    <TextField
+                        label="Expiry Date (MM/YY)"
+                        variant="outlined"
+                        value={cardData.expiryDate}
+                        onChange={handleExpiryDateChange}
+                        inputProps={{ maxLength: 5 }}
+                    />
+                    <TextField
+                        label="CVV"
+                        variant="outlined"
+                        value={cardData.cvv}
+                        onChange={handleCVVChange}
+                        inputProps={{ maxLength: 4 }}
+                        type="number"
+                    />
+                </div>
+                <Button disabled={!isFormValid}>Pay {price}</Button>
+            </div>
+        )
     }
     useEffect(() => {
         setModalContent(hotelsInLocation());
@@ -147,8 +167,8 @@ export default function BookingModal() {
                     position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
                     width: { xs: '90%', sm: '70%', md: '40%' }, backgroundColor: 'background.paper', boxShadow: 24,
                     p: 2, borderRadius: 2, zIndex: 50, overflowY: 'auto', maxHeight: '87vh',
-                }}>
-                    {modalContent}
+                }}> 
+                    {!isOpenPayment ? modalContent :<MakePayment price={hotelSelected.price} /> }
                 </Box>
             </Modal>
         </>

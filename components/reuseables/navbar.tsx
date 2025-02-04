@@ -9,7 +9,6 @@ import { useAppSelector } from '@/redux/store';
 import {useDispatch} from "react-redux";
 import {toggleModal} from "@/redux/userSlice";
 import BookingModal from "@/components/home/bookModal";
-
 export default function Navbar(props: { index: number }) {
     const [isOpen, setOpen] = useState<boolean>(false);
     const color = useAppSelector((state: RootState) => state.user.color);
@@ -39,7 +38,7 @@ export default function Navbar(props: { index: number }) {
                 <Link href={'/about_us'} className={`${props.index === 1 ? styles.current : styles.navbarInnerText} `}>About us</Link>
                 <Link href={'/contact'} className={`${props.index === 2 ? styles.current :  styles.navbarInnerText}`}>Contact</Link>
             </section>
-            <div className={'flex gap-[10px] justify-center items-center'}>
+            <div className={'gap-[10px] justify-center items-center hidden'}>
                     <button className={styles.book} onClick={toggle}>
                         Book Now
                     </button>
