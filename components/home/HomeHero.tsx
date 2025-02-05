@@ -26,7 +26,6 @@ export default function HomeHero() {
                 <p className={styles.relax}>Relax & unwind</p>
                 <p className={styles.experience}>Experience the luxurious level</p>
                 <p className={styles.treatment}>of our spa treatments</p>
-
                 <div className={styles.input}>
                     <p className={'pl-[20px] text-gray-100 text-[15px] font-[650]'}>Make a search</p>
                     <div>
