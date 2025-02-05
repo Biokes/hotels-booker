@@ -12,9 +12,10 @@ import AddCardIcon from '@mui/icons-material/AddCard';
 
 export default function BookingModal() {
     const dispatch = useDispatch()
+    const [modalContent, setModalContent] = useState<ReactNode>(<></>);
     const isOpen = useSelector((state:RootState) => state.user.isOpen)
     const toggle = ()=>{
-        dispatch(toggleModal(false))
+        dispatch(toggleModal(false)) 
     }
     const hotelsData = [
         {
@@ -85,10 +86,17 @@ export default function BookingModal() {
         return (
             setModalContent(
                 <div className='flex flex-col justify-end gap-[10px]'>
-                    <IconButton onClick={() => {toggle()}}>
+                    <IconButton onClick={() => {
+                        toggle();
+                        setModalContent(hotelsInLocation());
+                        togglePaymentSelectionModal()
+                    }} className={'w-[30px]'}>
                         <CloseIcon/>
                     </IconButton>
-                    <p className='text-[15px] capitalize text-black'>Payment made successfully</p>
+                    <div className='flex flex-col justify-center items-center'>
+                        <p className='w-full text-[15px] capitalize text-black'>An Email will be sent with your reciept.</p>
+                        <p className='text-[15px]'>Thanks</p>
+                    </div>
                 </div>
             )
         );
@@ -189,7 +197,7 @@ export default function BookingModal() {
         setModalContent(hotelsInLocation());
     }, []);
     
-    const [modalContent, setModalContent] = useState<ReactNode>(hotelsInLocation());
+    
     if (!isOpen) return null;
     return (
         <>
