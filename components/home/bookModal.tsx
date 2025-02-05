@@ -81,40 +81,49 @@ export default function BookingModal() {
             </div>  
         )
     }
+    const confirm = () => {
+        return (
+            setModalContent(
+                <div className='flex flex-col justify-end gap-[10px]'>
+                    <IconButton onClick={() => {toggle()}}>
+                        <CloseIcon/>
+                    </IconButton>
+                    <p className='text-[15px] capitalize text-black'>Payment made successfully</p>
+                </div>
+            )
+        );
+    }
+
     const MakePayment = ({ price }: {price:string}) => {
        
         const [cardData, setCardData] = useState<{ cardNumber: string, expiryDate: string, cvv: string }>({cardNumber: "",cvv: '',expiryDate:''})
         const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             let value = e.target.value.replace(/\D/g, '');
-            if (value.length > 19) {value = value.slice(0, 19);}
-            const formattedValue = value.replace(/(\d{4})(?=\d)/g, '$1 ');
-            setCardData({ ...cardData, cardNumber: formattedValue });
-        }
+            value = value.slice(0, 16);
+            const formattedValue = value.match(/.{1,4}/g)?.join(" ") || "";
+            setCardData((prev) => ({ ...prev, cardNumber: formattedValue }));
+        };
+        
         const handleExpiryDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 4) value = value.slice(0, 4);
+            let month = value.slice(0, 2);
+            let year = value.slice(2, 4);
             const currentYear = new Date().getFullYear() % 100;
-            const maxYear = currentYear + 6;
-            
-            if (value.length > 0) {
-                let month = value.slice(0, 2);
-                let year = value.slice(2, 4);
-                if (parseInt(month, 10) > 12) month = "12"; 
-                if (year && parseInt(year, 10) < currentYear) year = currentYear.toString();
-                if (year && parseInt(year, 10) > maxYear) year = maxYear.toString(); 
-
-                if (month.length === 2) {
-                    value = month + (year ? "/" + year : "");
-                } else {
-                    value = month + year; 
-                }
+            if (month.length === 2 && (parseInt(month, 10) < 1 || parseInt(month, 10) > 12)) {
+                month = "12";
             }
-        
-            setCardData({ ...cardData, expiryDate: value });
+            if (year.length === 2 && (parseInt(year, 10) < currentYear || parseInt(year, 10) > currentYear + 10)) {
+                year = currentYear.toString();
+            }
+            const formattedValue = month + (year ? "/" + year : "");
+            setCardData((prev) => ({ ...prev, expiryDate: formattedValue }));
         };
+        
             
         const pay = () => {
             setOpenPayment(false);
-            toggle();
+            confirm()
         }
 
         const handleCVVChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -133,7 +142,7 @@ export default function BookingModal() {
 
         const [isFormValid,setFormValid] = useState<boolean>(false);
         useEffect(() => {
-            setFormValid(cardData.cardNumber.replace(/\s/g, "").length >= 16 ||  validateExpiryDate(cardData.expiryDate)
+            setFormValid((cardData.cardNumber.replace(/\s/g, "").length >= 16 ||  validateExpiryDate(cardData.expiryDate))
                 && cardData.cvv.length >= 3 && cardData.cvv.length <= 4)
         }, [cardData.cvv, cardData.cardNumber, cardData.expiryDate]);
 
@@ -148,13 +157,13 @@ export default function BookingModal() {
                         <AddCardIcon sx={{ color:'blue'}} />
                     </div>
                 </div>
-                <div className={`mt-[20px] flex-col flex justify-center items-center gap-[10px] ${styles.textFields}`}>
+                <div className={`mt-[20px] flex-col flex justify-center items-center gap-[10px] mb-[10px] ${styles.textFields}`}>
                     <TextField
                         label="Card Number"
                         variant="outlined"
                         value={cardData.cardNumber}
                         onChange={handleCardNumberChange}
-                        inputProps={{ maxLength: 17, minLength:16}}
+                        inputProps={{ maxLength: 19, minLength:16}}
                     />
                     <TextField
                         label="Expiry Date (MM/YY)"
@@ -168,7 +177,7 @@ export default function BookingModal() {
                         variant="outlined"
                         value={cardData.cvv}
                         onChange={handleCVVChange}
-                        inputProps={{ maxLength: 4 }}
+                        inputProps={{ maxLength: 3 }}
                         type="number"
                     />
                 </div>
@@ -178,7 +187,8 @@ export default function BookingModal() {
     }
     useEffect(() => {
         setModalContent(hotelsInLocation());
-    },[]);
+    }, []);
+    
     const [modalContent, setModalContent] = useState<ReactNode>(hotelsInLocation());
     if (!isOpen) return null;
     return (
@@ -190,7 +200,7 @@ export default function BookingModal() {
                     width: { xs: '90%', sm: '70%', md: '40%' }, backgroundColor: 'background.paper', boxShadow: 24,
                     p: 2, borderRadius: 2, zIndex: 50, overflowY: 'auto', maxHeight: '87vh',
                 }}> 
-                    {!isOpenPayment ? modalContent :<MakePayment price={hotelSelected.price} /> }
+                    {!isOpenPayment ? modalContent : <MakePayment price={hotelSelected.price} />}
                 </Box>
             </Modal>
         </>

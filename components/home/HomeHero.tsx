@@ -32,7 +32,7 @@ export default function HomeHero() {
                     <div>
                         <input type="text" value={location} className={styles.textField} arial-label={"Location"}
                             placeholder='Search a city name' onChange={(e) => { setLocation(e.target.value); }} />
-                        <input type="date" value={checkInDate} className={styles.textField} aria-label="check-in Date"
+                        <input type="date" value={checkInDate} className={`hover:cursor-pointer ${styles.textField}`} aria-label="check-in Date"
                             min={new Date().toISOString().split("T")[0]}
                             onFocus={(e) => e.target.showPicker && e.target.showPicker()}
                             onChange={(e) => { setCheckInDate(e.target.value) }} />
