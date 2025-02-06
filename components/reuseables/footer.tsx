@@ -34,11 +34,8 @@ export default function Footer() {
               if (response.ok) {
                 setText("Thanks for joining!");
                 setEmail("");
-                console.log(response)  
               } else {
                   setText("Something went wrong. Please try again later.");
-                  console.log(response)  
-
             }
             setLoading(!isLoading)
             setEmail('')
@@ -48,7 +45,6 @@ export default function Footer() {
             if (error instanceof Error) {
                 setText("Something went wrong. Please try again later.");
                 setLoading(!isLoading)
-                console.log(error)  
                 return;
             }
             setText("Something went wrong. Please try again.");
@@ -58,7 +54,7 @@ export default function Footer() {
     };
     return (
         <div className={'flex flex-col '}>
-            <p ref={messageRef} data-testid={'paragraph'} className={`text-center w-full py-[7px] ${isShowingModal ? 'flex' : 'hidden'}`} style={{ backgroundColor: 'var(--text-color)' }}>
+            <p ref={messageRef} data-testid={'paragraph'} className={`text-center pl-[40vw] py-[7px] ${isShowingModal ? 'flex' : 'hidden'}`} style={{ backgroundColor: 'var(--text-color)' }}>
                 {text}
             </p>
             <div className={styles.footerInner}>
@@ -83,13 +79,16 @@ export default function Footer() {
                             <input data-testid={'email_input'} type={'email'} value={email} placeholder={'Enter your email'} required
                                 className={'w-[80%] text-black h-[40px] rounded-[7px] mb-[5px] pl-[7px] border-[1px] border-gray-500'}
                                    onChange={(e) => {setEmail(e.target.value);}}/>
-                            {isLoading ?
+                            {!isLoading ?
                                 <Button className={`w-[120px]  text-white h-[25px] hover:cursor-pointer text-[12px]`} variant={'contained'} disabled={!isValid(email)}
                                     onClick={handleSubmit}>
                                     Subscribe
                                 </Button>
                                 :
-                                <CircularProgress color="inherit" size={30} />}
+                                <div className={`w-[120px] py-[5px] text-[12px] rounded-md bg-blue-400 flex justify-center items-center`}>
+                                    <CircularProgress color={"inherit"} size={20} />
+                                </div>
+                            }
                         </form>
                     </div>
                 </div>

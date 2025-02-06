@@ -13,10 +13,12 @@ import AddCardIcon from '@mui/icons-material/AddCard';
 export default function BookingModal() {
     const dispatch = useDispatch()
     const [ modalContent, setModalContent] = useState<ReactNode>(<></>);
-    const isOpen = useSelector((state:RootState) => state.user.isOpen)
+    const isOpen = useSelector((state: RootState) => state.user.isOpen)
+    
     const toggle = ()=>{
         dispatch(toggleModal(false)) 
     }
+
     const hotelsData = [
         {
             imageURl: "https://exp.cdn-hotels.com/hotels/3000000/2320000/2319500/2319466/54614959_z.jpg",
@@ -55,11 +57,9 @@ export default function BookingModal() {
             rating: '4.5'
         },
     ];
-    const [isOpenPayment, setOpenPayment] = useState<boolean>(false);
+    
     const [hotelSelected, setSelection] = useState<{imageURl:string,price:string,name:string,rating:string}>({imageURl:'',price:'',name:'',rating:''})
-    // const togglePaymentSelectionModal = () => { 
-    //     setOpenPayment(!isOpenPayment)
-    // }
+ 
     const hotelsInLocation = () => {
         return (
             <div className={'w-full h-full'}>
@@ -83,8 +83,7 @@ export default function BookingModal() {
                         <div className={`flex gap-[10px] border-[1px] border-gray-200 rounded-md p-[7px] bottom-1 hover:cursor-pointer transform transition-all duration-[300] hover:rounded-md`}
                             key={index} onClick={() => {
                                 setSelection(hotel);
-                                // togglePaymentSelectionModal()
-                                setModalContent(<MakePayment price={hotel.price}/>)
+                                setModalContent(<MakePayment price={hotelSelected.price ?? hotel.price}/>)
                             }}>
                             <div className={'w-[100px] h-[100px] overflow-hidden rounded-md border-[2px]'}>
                                 <Image src={hotel.imageURl} alt={'hotel'} width={100} height={100} className={'w-full h-full object-center object-cover'} />
@@ -125,7 +124,7 @@ export default function BookingModal() {
     }
 
     const MakePayment = ({ price }: {price:string}) => {
-       
+
         const [cardData, setCardData] = useState<{ cardNumber: string, expiryDate: string, cvv: string }>({cardNumber: "",cvv: '',expiryDate:''})
         const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             let value = e.target.value.replace(/\D/g, '');
@@ -133,7 +132,7 @@ export default function BookingModal() {
             const formattedValue = value.match(/.{1,4}/g)?.join(" ") || "";
             setCardData((prev) => ({ ...prev, cardNumber: formattedValue }));
         };
-        
+
         const handleExpiryDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             let value = e.target.value.replace(/\D/g, '');
             if (value.length > 4) value = value.slice(0, 4);
@@ -149,15 +148,14 @@ export default function BookingModal() {
             const formattedValue = month + (year ? "/" + year : "");
             setCardData((prev) => ({ ...prev, expiryDate: formattedValue }));
         };
-        
-            
+
+
         const pay = () => {
-            // togglePaymentSelectionModal()
             confirm()
         }
 
         const handleCVVChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-            let value = e.target.value.replace(/\D/g, ''); 
+            let value = e.target.value.replace(/\D/g, '');
             if (value.length > 3) value = value.slice(0, 3);
             setCardData({ ...cardData, cvv: value });
         };
@@ -178,7 +176,7 @@ export default function BookingModal() {
 
         return (
             <div className='w-full p-[10px]'>
-                <div className={`flex justify-betweeen items-center px-[10px] w-full ${styles.textFieldContainer}`}>
+                <div className={`flex justify-between items-center px-[10px] w-full ${styles.textFieldContainer}`}>
                     <IconButton onClick={() => {setModalContent(hotelsInLocation())}}>
                         <KeyboardBackspaceIcon />
                     </IconButton>

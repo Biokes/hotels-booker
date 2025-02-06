@@ -29,7 +29,7 @@
     }
 }
 .roomSection > div{
-    @apply flex flex-col h-[250px] w-[250px] md:w-[350px] md:h-[350px] lg:w-[430px] bg-no-repeat my-[10px]
+    @apply flex flex-col h-[250px] w-[80vw] sm:w-[320px] sm:h-[350px] lg:w-[430px] bg-no-repeat my-[10px]
     object-contain object-center justify-center items-center px-[10px] overflow-hidden
 }
 .heading, .description{
