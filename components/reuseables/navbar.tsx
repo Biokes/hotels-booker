@@ -26,8 +26,8 @@ export default function Navbar(props: { index: number }) {
         <div>
             <div className={`${styles.navbar} ${color === "#000000" ? styles.darkMode : styles.lightMode}`}>
             <section className={'flex md:gap-[10px] items-center'}>
-                <div className={`flex md:hidden h-[50px]`} data-testid="menu">
-                    <Hamburger toggled={isOpen} toggle={setOpen} color={color === "#ffffff" ? "#050505" : "#ea00fd"}/>
+                <div className={`flex md:hidden`} data-testid="menu">
+                        <Hamburger toggled={isOpen} toggle={setOpen} color={color === "#ffffff" ? "#050505" : "#ea00fd"} size={20}/>
                 </div>
                 <p className={`${styles.font} ${color === "#ffffff" ? 'text-gray-700' : 'text-[#ea00fd]'} text-nowrap text-lg`}>
                     Royal Villas

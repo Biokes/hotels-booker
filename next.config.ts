@@ -15,6 +15,18 @@ const nextConfig: NextConfig = {
                 protocol:'https',
                 hostname:'as2.ftcdn.net'
             },
+            {
+                protocol: 'https',
+                hostname:'exp.cdn-hotels.com'
+            },
+            {   
+                protocol:'https',
+                hostname :'ui.cltpstatic.com'
+            },
+            {
+                protocol: 'https',
+                hostname:'th.bing.com'
+            }
 
           ],
     },

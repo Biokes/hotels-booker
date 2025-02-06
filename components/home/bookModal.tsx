@@ -12,12 +12,30 @@ import AddCardIcon from '@mui/icons-material/AddCard';
 
 export default function BookingModal() {
     const dispatch = useDispatch()
-    const [modalContent, setModalContent] = useState<ReactNode>(<></>);
+    const [ modalContent, setModalContent] = useState<ReactNode>(<></>);
     const isOpen = useSelector((state:RootState) => state.user.isOpen)
     const toggle = ()=>{
         dispatch(toggleModal(false)) 
     }
     const hotelsData = [
+        {
+            imageURl: "https://exp.cdn-hotels.com/hotels/3000000/2320000/2319500/2319466/54614959_z.jpg",
+            price: "250,000",
+            name: "The Protea Hotel",
+            rating: '4.7'
+        },
+        {
+            imageURl: "https://ui.cltpstatic.com/places/hotels/3557/355757/images/119fc093_w.jpg",
+            price: "370,000",
+            name: 'Mariot Hotels',
+            rating: "4.5"
+        },
+        {
+            imageURl: "https://th.bing.com/th/id/R.c13e8318ecbeb11ee758450580026d87?rik=I8CkTD%2flo6N%2bDw&pid=ImgRaw&r=0&sres=1&sresct=1",
+            price: "150,000",
+            name: 'Fortune pearls',
+            rating: '3.5'
+        },
         {
             imageURl: "https://media.istockphoto.com/id/119926339/photo/resort-swimming-pool.jpg?s=612x612&w=0&k=20&c=9QtwJC2boq3GFHaeDsKytF4-CavYKQuy1jBD2IRfYKc=",
             price: "400,000",
@@ -39,9 +57,9 @@ export default function BookingModal() {
     ];
     const [isOpenPayment, setOpenPayment] = useState<boolean>(false);
     const [hotelSelected, setSelection] = useState<{imageURl:string,price:string,name:string,rating:string}>({imageURl:'',price:'',name:'',rating:''})
-    const togglePaymentSelectionModal = () => { 
-        setOpenPayment(!isOpenPayment)
-    }
+    // const togglePaymentSelectionModal = () => { 
+    //     setOpenPayment(!isOpenPayment)
+    // }
     const hotelsInLocation = () => {
         return (
             <div className={'w-full h-full'}>
@@ -60,10 +78,14 @@ export default function BookingModal() {
                         <CloseIcon />
                     </IconButton>
                 </Box>
-                <div className={'flex flex-col gap-[10px] overflow-auto mt-[20px] h-[80%]'}>
+                <div className={'flex flex-col gap-[10px] mt-[20px] max-h-[400px] overflow-y-auto'}>
                     {hotelsData.map((hotel, index) => (
                         <div className={`flex gap-[10px] border-[1px] border-gray-200 rounded-md p-[7px] bottom-1 hover:cursor-pointer transform transition-all duration-[300] hover:rounded-md`}
-                            key={index} onClick={() => {setSelection(hotel);togglePaymentSelectionModal()}}>
+                            key={index} onClick={() => {
+                                setSelection(hotel);
+                                // togglePaymentSelectionModal()
+                                setModalContent(<MakePayment price={hotel.price}/>)
+                            }}>
                             <div className={'w-[100px] h-[100px] overflow-hidden rounded-md border-[2px]'}>
                                 <Image src={hotel.imageURl} alt={'hotel'} width={100} height={100} className={'w-full h-full object-center object-cover'} />
                             </div>
@@ -88,14 +110,14 @@ export default function BookingModal() {
                 <div className='flex flex-col justify-end gap-[10px]'>
                     <IconButton onClick={() => {
                         toggle();
+                        setSelection({ imageURl: "", price: "", name: "", rating: "" });
                         setModalContent(hotelsInLocation());
-                        togglePaymentSelectionModal()
                     }} className={'w-[30px]'}>
                         <CloseIcon/>
                     </IconButton>
-                    <div className='flex flex-col justify-center items-center'>
-                        <p className='w-full text-[15px] capitalize text-black'>An Email will be sent with your reciept.</p>
-                        <p className='text-[15px]'>Thanks</p>
+                    <div className='flex flex-col justify-center items-center w-full'>
+                        <p className='text-[15px] capitalize text-black'>Payment successful.</p>
+                        <p className='text-[15px] text-black'>Thanks</p>
                     </div>
                 </div>
             )
@@ -130,7 +152,7 @@ export default function BookingModal() {
         
             
         const pay = () => {
-            setOpenPayment(false);
+            // togglePaymentSelectionModal()
             confirm()
         }
 
@@ -156,13 +178,13 @@ export default function BookingModal() {
 
         return (
             <div className='w-full p-[10px]'>
-                <div className={`flex justify-betweeen items-center px-[10px] ${styles.textFieldContainer}`}>
-                    <IconButton onClick={() => {togglePaymentSelectionModal()}}>
+                <div className={`flex justify-betweeen items-center px-[10px] w-full ${styles.textFieldContainer}`}>
+                    <IconButton onClick={() => {setModalContent(hotelsInLocation())}}>
                         <KeyboardBackspaceIcon />
                     </IconButton>
-                    <div className='flex gap-[5px] ml-[100px]'>
-                        <p className='text-blue-400 text-[15px] font-bold text-nowrap'>Pay with Card </p>
-                        <AddCardIcon sx={{ color:'blue'}} />
+                    <div className='flex gap-[5px] ml-[50%] md:ml-[60%]'>
+                        <p className='text-[#807D80] text-[15px] font-bold text-nowrap'>Pay with Card </p>
+                        <AddCardIcon sx={{ color:'#807D80'}} />
                     </div>
                 </div>
                 <div className={`mt-[20px] flex-col flex justify-center items-center gap-[10px] mb-[10px] ${styles.textFields}`}>
@@ -189,7 +211,7 @@ export default function BookingModal() {
                         type="number"
                     />
                 </div>
-                <Button disabled={!isFormValid} variant={'contained'} onClick={() => { pay()}}>Pay {price}</Button>
+                <Button disabled={!isFormValid} variant={'contained'} onClick={() => { pay(); }} sx={{marginLeft:'50px'}}>Pay {price}</Button>
             </div>
         )
     }
@@ -208,7 +230,7 @@ export default function BookingModal() {
                     width: { xs: '90%', sm: '70%', md: '40%' }, backgroundColor: 'background.paper', boxShadow: 24,
                     p: 2, borderRadius: 2, zIndex: 50, overflowY: 'auto', maxHeight: '87vh',
                 }}> 
-                    {!isOpenPayment ? modalContent : <MakePayment price={hotelSelected.price} />}
+                    { modalContent}
                 </Box>
             </Modal>
         </>
